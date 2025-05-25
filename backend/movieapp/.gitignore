@@ -3,6 +3,15 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+# === SENSITIVE FILES ===
+.env
+application.properties
+HELP.md
+
+# === BUILD FILES ===
+target/
+build/
+
 
 ### STS ###
 .apt_generated
