@@ -1,6 +1,5 @@
 package com.example.movieapp.Models;
 
-import com.example.movieapp.Enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,19 +8,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 
-@Document(collection = "users")
+@Document(collection = "movies")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-
+public class Movie {
+    
     @Id
-    private String email;
-    private String firstname;
-    private String lastname;
-    private int age;
-    private ArrayList<WatchListItem> watchlist = new ArrayList<>();
-    private UserRole role;
-
+    private int tmdbId;
+    private String title;
+    private String description;
+    private String image;
+    private int runTime;
+    private ArrayList<String> genres;
+    private int rating;
 }
