@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar.jsx";
-import Outbar from "@/components/Navbar.jsx";
+import Outbar from "@/components/Outbar.jsx";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
