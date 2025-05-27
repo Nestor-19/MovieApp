@@ -24,4 +24,52 @@ public class User {
     private ArrayList<WatchListItem> watchlist = new ArrayList<>();
     private UserRole role;
 
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public ArrayList<WatchListItem> getWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(ArrayList<WatchListItem> watchlist) {
+        this.watchlist = watchlist;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 }

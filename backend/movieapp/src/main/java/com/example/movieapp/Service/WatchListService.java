@@ -1,5 +1,6 @@
 package com.example.movieapp.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,12 +25,13 @@ public class WatchListService {
         this.movieRepo = movieRepo;
     }
 
+
     public List<WatchListItemDto> getWatchlist(String userEmail) {
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Integer> ids = user.getWatchlist().stream()
-            .map(item -> Integer.valueOf(item.getMovieid()))
+        List<String> ids = user.getWatchlist().stream()
+            .map(item -> String.valueOf(Integer.valueOf(item.getMovieid())))
             .toList();
 
         if (ids.isEmpty()) {
@@ -46,7 +48,7 @@ public class WatchListService {
 
         return movies.stream()
             .map(m -> new WatchListItemDto(
-                m.getTmdbId(),
+                    String.valueOf(m.getTmdbId()),
                 m.getTitle(),
                 m.getDescription(),
                 m.getImage(),
@@ -66,10 +68,12 @@ public class WatchListService {
             .orElseThrow(() -> new RuntimeException("Movie not found"));
 
         boolean exists = user.getWatchlist().stream()
-            .anyMatch(item -> item.getMovieid().equals(movie.getTmdbId().toString()));
+            .anyMatch(item -> item.getMovieid().equals(movie.getTmdbId()));
         
         if (!exists) {
-            user.getWatchlist().add(new WatchListItem(movie.getTmdbId().toString(), null));
+            ArrayList<WatchListItem> usersLists = user.getWatchlist();
+            usersLists.add(new WatchListItem(movie.getTmdbId(), null));
+            user.setWatchlist(usersLists);
             userRepo.save(user);
         } else{
             System.out.println("Movie already exists in watchlist!");
