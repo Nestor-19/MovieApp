@@ -1,8 +1,8 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar.jsx"
-
+import LayoutWrapper from "./LayoutWrapper"; // ✅ use client wrapper here
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,18 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-           <Navbar/>
-        <div
-          className="
-            min-h-screen flex items-center justify-center
-            bg-thio from-slate-800 to-black
-            px-4 py-10
-          "
-        >
-          
-            {children}
-
-        </div>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
