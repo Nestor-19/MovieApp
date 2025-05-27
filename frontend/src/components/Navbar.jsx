@@ -1,34 +1,36 @@
-export default function Navbar() {
+export default function Outbar() {
   return (
-    <header className="bg-pink-800">
+    <header style={{ backgroundColor: "#384c6e" }}>
+
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="text-xl font-bold text-blue-400">MyApp</div>
+        <div className="text-xl font-bold text-blue-400">MovieApp</div>
 
-        {/* Horizontal nav links */}
- <ul className="flex items-center list-none p-0 m-0">
+        {/* Right-side links for unauthenticated users */}
+        <ul className="flex items-center list-none p-0 m-0 space-x-6">
           <li>
             <a
-              href="/"
-              className="text-yellow-400 hover:text-yellow-500 transition "
+              href="/generateMovie"
+              className="text-white hover:text-yellow-500 transition"
             >
-              Home
+              Generate Movie
             </a>
           </li>
           <li>
             <a
-              href="/about"
-              className="text-yellow-400 hover:text-yellow-500 transition"
+              href="/generateMovie"
+              className="text-white hover:text-yellow-500 transition"
             >
-              About
+              Watched List
             </a>
           </li>
-          <li>
+
+           <li>
             <a
-              href="/contact"
-              className="text-yellow-400 hover:text-yellow-500 transition"
+              href="/watchedlist"
+              className="text-white hover:text-yellow-500 transition"
             >
-              Contact
+              WishList
             </a>
           </li>
         </ul>
