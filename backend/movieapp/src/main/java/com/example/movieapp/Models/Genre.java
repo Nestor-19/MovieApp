@@ -1,2 +1,4 @@
-package com.example.movieapp.Models;public class Genre {
+package com.example.movieapp.Models;
+
+public class Genre {
 }
