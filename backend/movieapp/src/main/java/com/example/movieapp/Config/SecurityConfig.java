@@ -1,7 +1,5 @@
 package com.example.movieapp.Config;
 
-
-import com.example.movieapp.Enums.UserRole;
 import com.example.movieapp.Models.User;
 import com.example.movieapp.Repository.UserRepo;
 import com.example.movieapp.Service.CurrentUserService;
@@ -64,7 +62,6 @@ public class SecurityConfig {
                                 user.setFirstname(givenName);
                                 user.setLastname(familyName);
                                 user.setEmail(email);
-                                user.setWatchedList(new ArrayList<>());
                                 user.setWatchlist(new ArrayList<>());
                                 userRepo.save(user);
                             }else{
