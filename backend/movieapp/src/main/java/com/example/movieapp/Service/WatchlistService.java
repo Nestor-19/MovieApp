@@ -62,8 +62,9 @@ public class WatchListService {
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        movieRepo.findById(movie.getTmdbId())
-            .orElseThrow(() -> new RuntimeException("Movie not found"));
+        if (!movieRepo.existsById(movie.getTmdbId())) {
+            movieRepo.save(movie);
+        }
 
         boolean exists = user.getWatchlist().stream()
             .anyMatch(item -> item.getMovieid().equals(movie.getTmdbId().toString()));
