@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class WatchListItem {
     private String movieid;
@@ -25,5 +24,10 @@ public class WatchListItem {
 
     public void setLiked(Boolean liked) {
         this.liked = liked;
+    }
+
+    public WatchListItem(String movieid, Boolean liked) {
+        this.liked = liked;
+        this.movieid = movieid;
     }
 }

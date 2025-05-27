@@ -47,16 +47,17 @@ public class WatchListService {
                 (a, b) -> a));
 
         return movies.stream()
-            .map(m -> new WatchListItemDto(
-                    String.valueOf(m.getTmdbId()),
-                m.getTitle(),
-                m.getDescription(),
-                m.getImage(),
-                m.getRunTime(),
-                m.getRating(),
-                likedMap.get(m.getTmdbId())
-            ))
-            .toList();
+                .map(m -> new WatchListItemDto(
+                        m.getDescription(),             // description
+                        m.getImage(),                   // image
+                        likedMap.get(m.getTmdbId()),   // liked
+                        m.getRating(),                 // rating
+                        m.getRunTime(),                // runTime
+                        m.getTitle(),                  // title
+                        String.valueOf(m.getTmdbId())  // tmdbId
+                ))
+                .toList();
+
     }
 
     @Transactional

@@ -14,7 +14,9 @@ public class WatchListItemDto {
     private Integer rating;
     private Boolean liked;
 
-    public WatchListItemDto(String description, String image, Boolean liked, Integer rating, Integer runTime, String title, String tmdbId) {
+    public WatchListItemDto(String description, String image, Boolean liked,
+                            Integer rating, Integer runTime,
+                            String title, String tmdbId) {
         this.description = description;
         this.image = image;
         this.liked = liked;
