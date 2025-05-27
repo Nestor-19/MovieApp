@@ -21,7 +21,7 @@ public class User {
     private String firstname;
     private String lastname;
     private int age;
-    private ArrayList<WatchListItem> watchlist;
+    private ArrayList<WatchListItem> watchlist = new ArrayList<>();
     private UserRole role;
 
 }

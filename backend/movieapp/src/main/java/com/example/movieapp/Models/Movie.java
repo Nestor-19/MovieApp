@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Movie {
     
     @Id
-    private Integer tmdbId;
+    private int tmdbId;
     private String title;
     private String description;
     private String image;
