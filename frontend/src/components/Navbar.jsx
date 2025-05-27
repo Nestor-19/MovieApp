@@ -1,4 +1,4 @@
-export default function Outbar() {
+export default function Navbar() {
   return (
     <header style={{ backgroundColor: "#384c6e" }}>
 
