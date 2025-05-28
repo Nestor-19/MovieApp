@@ -39,12 +39,14 @@ export default function MovieCard({ movie }: Props) {
     .map(id => genreMap[id])
     .filter(Boolean) as string[];
 
+  const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
   const addToWatchlist = async () => {
     const payload: Movie = {
       tmdbId:       movie.id.toString(),
       title:        movie.title,
       description:  movie.overview,
-      image:        movie.poster_path,
+      image:        imageUrl,
       runTime:      movie.runtime,
       genres:       genreNames,
       rating:       Math.round(movie.vote_average),
