@@ -3,7 +3,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import MovieCard from "@/components/MovieComponents/MovieCard";
 
-const API_KEY = process.env.TMDB_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
 async function fetchMoviesByPage(page: number) {
   const res = await fetch(
