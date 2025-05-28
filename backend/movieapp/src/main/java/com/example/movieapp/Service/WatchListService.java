@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.movieapp.Models.Movie;
 import com.example.movieapp.Models.User;
@@ -62,22 +64,30 @@ public class WatchListService {
 
     @Transactional
     public void addMovie(String userEmail, Movie movie) {
+        System.out.println(userEmail);
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        movieRepo.findById(movie.getTmdbId())
-            .orElseThrow(() -> new RuntimeException("Movie not found"));
+
+        final String tmdbId = movie.getTmdbId();
+
+        if (!movieRepo.existsById(tmdbId)) {
+            movieRepo.save(movie);
+        }
 
         boolean exists = user.getWatchlist().stream()
-            .anyMatch(item -> item.getMovieid().equals(movie.getTmdbId()));
+            .anyMatch(item -> item.getMovieid().equals(tmdbId));
         
         if (!exists) {
             ArrayList<WatchListItem> usersLists = user.getWatchlist();
-            usersLists.add(new WatchListItem(movie.getTmdbId(), null));
+            usersLists.add(new WatchListItem(tmdbId, null));
             user.setWatchlist(usersLists);
             userRepo.save(user);
         } else{
-            System.out.println("Movie already exists in watchlist!");
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Movie already exists in your watchlist"
+            );
         }
     }
 

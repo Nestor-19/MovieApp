@@ -63,6 +63,9 @@ export default function MovieCard({ movie }: Props) {
       if (response.ok) {
         setSuccessMsg("✅ Movie successfully added to your watchlist!");
         setFailMsg("");
+      } else if (response.status === 409) {
+      setFailMsg("❌ That movie is already in your watchlist.");
+      setSuccessMsg("");
       } else {
         const errorText = await response.text();
         setFailMsg(`❌ ${errorText}`);
