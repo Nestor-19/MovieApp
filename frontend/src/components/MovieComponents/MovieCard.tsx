@@ -1,26 +1,72 @@
 "use client";
 
 import React, { useState } from "react";
+import { useGenreMap } from "@/hooks/useGenreMap";
 
-export default function MovieCard({ movie }) {
+interface TmdbMovie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  runtime: number;
+  genre_ids: number[];
+  vote_average: number;
+  vote_count: number;
+  release_date: string;
+}
+
+interface Movie {
+  tmdbId: string;
+  title: string;
+  description: string;
+  image: string;
+  runTime: number;
+  genres: string[];
+  rating: number;
+}
+
+type Props = {
+  movie: TmdbMovie;
+};
+
+export default function MovieCard({ movie }: Props) {
+  const genreMap = useGenreMap();
   const [success, setSuccessMsg] = useState("");
   const [fail, setFailMsg] = useState("");
   const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
-  const addToWatchlist = async (tmdbId: number) => {
+  const genreNames = movie.genre_ids
+    .map(id => genreMap[id])
+    .filter(Boolean) as string[];
+
+  const addToWatchlist = async () => {
+    const payload: Movie = {
+      tmdbId:       movie.id.toString(),
+      title:        movie.title,
+      description:  movie.overview,
+      image:        movie.poster_path,
+      runTime:      movie.runtime,
+      genres:       genreNames,
+      rating:       Math.round(movie.vote_average),
+    };
+
     try {
-      const response = await fetch(`${backendUrl}/api/movie/add/${tmdbId}`, {
-        method: "POST",
+      const response = await fetch(`${backendUrl}/api/watchlist`, {
+        method:      "POST",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         setSuccessMsg("✅ Movie successfully added to your watchlist!");
-        setFailMsg(""); // clear any previous error
+        setFailMsg("");
       } else {
         const errorText = await response.text();
         setFailMsg(`❌ ${errorText}`);
-        setSuccessMsg(""); // clear any previous success
+        setSuccessMsg("");
       }
     } catch (error) {
       console.error("Client error:", error);
@@ -39,11 +85,11 @@ export default function MovieCard({ movie }) {
 
       if (response.ok) {
         setSuccessMsg("✅ Movie successfully added to your watchlist!");
-        setFailMsg(""); // clear any previous error
+        setFailMsg("");
       } else {
         const errorText = await response.text();
         setFailMsg(`❌ ${errorText}`);
-        setSuccessMsg(""); // clear any previous success
+        setSuccessMsg("");
       }
     } catch (error) {
       console.error("Client error:", error);
@@ -94,7 +140,7 @@ export default function MovieCard({ movie }) {
 
       <div className="flex justify-center items-center mt-4">
         <button
-          onClick={() => addToWatchlist(movie.id)}
+          onClick={() => addToWatchlist()}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
                      transition-transform duration-300 group-hover:scale-105"
         >
