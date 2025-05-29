@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useGenreMap } from "@/hooks/useGenreMap";
+import { fetchMovieDetails } from "@/utils/movieDetails";
 
 interface TmdbMovie {
   id: number;
@@ -42,12 +43,14 @@ export default function MovieCard({ movie }: Props) {
   const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
   const addToWatchlist = async () => {
+    const { runtime } = await fetchMovieDetails(movie.id);
+
     const payload: Movie = {
       tmdbId:       movie.id.toString(),
       title:        movie.title,
       description:  movie.overview,
       image:        imageUrl,
-      runTime:      movie.runtime, // TODO: need to get runtime of movie via GET https://api.themoviedb.org/3/movie/{movie_id}
+      runTime:      runtime,
       genres:       genreNames,
       rating:       Math.round(movie.vote_average),
     };
