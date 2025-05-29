@@ -38,9 +38,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection (be careful with this)
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests
-                        .requestMatchers("/movie/addToWatchlist").authenticated() // Require authentication for /movie/addToWatchlist
+                        .requestMatchers("/api/watchlist/**").authenticated()
                         .anyRequest().authenticated() // Ensure other requests require authentication
                 )
                 .oauth2Login(oauth2 -> oauth2
