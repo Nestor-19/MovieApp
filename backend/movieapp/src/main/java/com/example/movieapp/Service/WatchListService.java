@@ -32,34 +32,25 @@ public class WatchListService {
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<String> ids = user.getWatchlist().stream()
-            .map(item -> String.valueOf(Integer.valueOf(item.getMovieid())))
-            .toList();
+        return user.getWatchlist().stream()
+            .map(item -> {
+                Integer tmdbId = Integer.valueOf(item.getMovieid());
+                Movie movie = movieRepo.findById(tmdbId.toString())
+                .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Movie %d not found".formatted(tmdbId)));
 
-        if (ids.isEmpty()) {
-            return List.of();
-        }
-
-        List<Movie> movies = movieRepo.findAllById(ids);
-
-        Map<Integer, Boolean> likedMap = user.getWatchlist().stream()
-            .collect(Collectors.toMap(
-                item -> Integer.valueOf(item.getMovieid()),
-                WatchListItem::getLiked,
-                (a, b) -> a));
-
-        return movies.stream()
-                .map(m -> new WatchListItemDto(
-                        m.getDescription(),             // description
-                        m.getImage(),                   // image
-                        likedMap.get(m.getTmdbId()),   // liked
-                        m.getRating(),                 // rating
-                        m.getRunTime(),                // runTime
-                        m.getTitle(),                  // title
-                        String.valueOf(m.getTmdbId())  // tmdbId
-                ))
-                .toList();
-
+            return new WatchListItemDto(
+                movie.getDescription(),
+                movie.getImage(),
+                item.getLiked(),             
+                movie.getRating(),
+                movie.getRunTime(),
+                movie.getTitle(),
+                item.getMovieid()           
+            );
+        })
+        .collect(Collectors.toList());
     }
 
     @Transactional
