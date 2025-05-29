@@ -47,7 +47,7 @@ export default function MovieCard({ movie }: Props) {
       title:        movie.title,
       description:  movie.overview,
       image:        imageUrl,
-      runTime:      movie.runtime,
+      runTime:      movie.runtime, // TODO: need to get runtime of movie via GET https://api.themoviedb.org/3/movie/{movie_id}
       genres:       genreNames,
       rating:       Math.round(movie.vote_average),
     };
@@ -145,14 +145,14 @@ export default function MovieCard({ movie }: Props) {
 
       <div className="flex justify-center items-center mt-4">
         <button
-          onClick={() => addToWatchlist()}
+          onClick={() => addToWishlist(movie.id)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
                      transition-transform duration-300 group-hover:scale-105"
         >
-          Add to watch list
+          Add to wish list
         </button>
         <button
-          onClick={() => addToWishlist(movie.id)}
+          onClick={() => addToWatchlist()}
           className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
                      transition-transform duration-300 group-hover:scale-105"
         >
