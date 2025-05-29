@@ -1,10 +1,19 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <header style={{ backgroundColor: "#384c6e" }}>
 
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="text-xl font-bold text-blue-400">MovieApp</div>
+        <Link href="/dashboard" legacyBehavior>
+          <a
+            className="text-xl font-bold text-blue-400 hover:text-blue-300 no-underline cursor-pointer"
+            aria-label="Go to dashboard"
+          >
+            MovieApp
+          </a>
+        </Link>
 
         {/* Right-side links for unauthenticated users */}
         <ul className="flex items-center list-none p-0 m-0 space-x-6">
@@ -18,7 +27,7 @@ export default function Navbar() {
           </li>
           <li>
             <a
-              href="/generateMovie"
+              href="/watchedList"
               className="text-white hover:text-yellow-500 transition"
             >
               Watched List
@@ -27,7 +36,7 @@ export default function Navbar() {
 
            <li>
             <a
-              href="/watchedlist"
+              href="/generateMovie"
               className="text-white hover:text-yellow-500 transition"
             >
               WishList
