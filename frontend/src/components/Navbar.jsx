@@ -42,6 +42,15 @@ export default function Navbar() {
               WishList
             </a>
           </li>
+
+           <li>
+            <a
+              href="/actors"
+              className="text-white hover:text-yellow-500 transition"
+            >
+              Actors
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
