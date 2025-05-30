@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection (be careful with this)
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**","/api/movies").permitAll() // Allow OPTIONS requests
                         .requestMatchers("/api/watchlist/**").authenticated()
                         .anyRequest().authenticated() // Ensure other requests require authentication
                 )
@@ -73,7 +73,7 @@ public class SecurityConfig {
                             currentUserService.setCurrentUser(user);
 
                             // Redirect to your dashboard after successful login
-                            response.sendRedirect("http://localhost:3000/dashboard");
+                            response.sendRedirect("http://localhost:3001/dashboard");
                         })
                 );
         return http.build();

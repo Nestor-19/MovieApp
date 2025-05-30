@@ -52,5 +52,8 @@ public class WatchListController {
         watchListService.setLiked(oidcUser.getEmail(), tmdbId, liked);
         return ResponseEntity.noContent().build();
     }
+
+
+
     
 }

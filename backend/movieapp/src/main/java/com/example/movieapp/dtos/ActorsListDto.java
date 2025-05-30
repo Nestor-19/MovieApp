@@ -1,10 +1,15 @@
 package com.example.movieapp.dtos;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
 
 
-public class ActorsList {
+@Setter
+@Getter
+public class ActorsListDto {
     private ArrayList<ActorDto> actorsList;
 
     public ArrayList<ActorDto> getActorsList() {
