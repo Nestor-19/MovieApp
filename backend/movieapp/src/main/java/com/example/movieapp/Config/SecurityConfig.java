@@ -73,13 +73,9 @@ public class SecurityConfig {
                             currentUserService.setCurrentUser(user);
 
                             // Redirect to your dashboard after successful login
-                            response.sendRedirect("http://localhost:3001/dashboard");
+                            response.sendRedirect("http://localhost:3000/dashboard");
                         })
                 );
         return http.build();
     }
-
-
-
-
 }
