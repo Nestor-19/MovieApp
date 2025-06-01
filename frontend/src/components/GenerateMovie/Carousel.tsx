@@ -132,7 +132,7 @@ export default function Carousel({ watchlist }: Props) {
           <button
             onClick={goNext}
             disabled={current === 0 && form.mood === ""}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
           >
             <span>Next</span>
             <span>→</span>
@@ -140,7 +140,7 @@ export default function Carousel({ watchlist }: Props) {
         ) : (
           <button
             onClick={submit}
-            className="flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="flex items-center w-45 space-x-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
           >
             <span>🎯</span>
             <span>Generate Movies</span>
