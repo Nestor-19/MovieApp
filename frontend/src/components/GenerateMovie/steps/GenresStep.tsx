@@ -43,7 +43,7 @@ export default function GenresStep({ selected, onChange }: Props) {
               disabled={isDisabled}
               className={`group relative p-4 rounded-lg border-2 transition-all duration-200 transform hover:scale-105 ${
                 isSelected
-                  ? "border-blue-500 bg-gradient-to-br from-blue-600/80 to-purple-600/80 text-white shadow-lg"
+                  ? "border-blue-500 bg-gradient-to-br from-blue-600/80 to-purple-600/80 text-white shadow-lg bg-sky-900"
                   : isDisabled
                     ? "border-gray-700 bg-gray-800/30 text-gray-500 cursor-not-allowed"
                     : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500 hover:text-white"

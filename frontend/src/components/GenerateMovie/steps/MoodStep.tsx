@@ -28,7 +28,7 @@ export default function MoodStep({ value, onChange }: Props) {
             onClick={() => onChange(mood.name)}
             className={`group relative p-6 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
               value === mood.name
-                ? "border-blue-500 bg-gradient-to-br from-blue-600/80 to-purple-600/80 shadow-lg"
+                ? "border-blue-500 bg-sky-900 from-blue-600/80 to-purple-600/80 shadow-lg"
                 : "border-gray-600 bg-gray-800/50 hover:border-gray-500"
             }`}
           >
