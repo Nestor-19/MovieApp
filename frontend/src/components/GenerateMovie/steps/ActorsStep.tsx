@@ -61,9 +61,9 @@ export default function ActorsStep({ selected, onChange }: Props) {
             value={query}
             placeholder="Type actor name..."
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-3 pl-10 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all text-sm"
+            className="w-96 px-4 py-3 pl-10 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all text-sm"
           />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">🔍</div>
+          <div className="absolute left-3 top-1/4 transform -translate-y-1/2 text-gray-400 text-lg">🔍</div>
           {loading && (
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
