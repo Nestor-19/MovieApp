@@ -5,7 +5,6 @@ import com.example.movieapp.Models.Movie;
 import com.example.movieapp.Repository.ActorRepo;
 import com.example.movieapp.Repository.MovieRepo;
 import com.example.movieapp.Service.ActorService;
-import com.example.movieapp.dtos.ActorDto;
 import com.example.movieapp.dtos.ActorsListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +31,10 @@ public class ActorController {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    @GetMapping
+    public List<Actor> getAllActors() {
+        return actorService.getActors();
+    }
 
     @PostMapping("/storeAllActors")
     public ResponseEntity<?> storeAllActors(@RequestBody ActorsListDto actorsListDto) {

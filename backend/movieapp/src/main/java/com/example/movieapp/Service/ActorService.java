@@ -10,12 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ActorService {
 
     @Autowired
     private ActorRepo actorRepo;
+
+    public List<Actor> getActors() {
+        return actorRepo.findAll();
+    }
 
     public void addActor(ActorsListDto actorsListDto){
         for (ActorDto actorDto : actorsListDto.getActorsList()) {
