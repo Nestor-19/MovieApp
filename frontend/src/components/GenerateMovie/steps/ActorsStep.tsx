@@ -104,7 +104,7 @@ export default function ActorsStep({ selected, onChange }: Props) {
 
       {/* Suggestion dropdown */}
       {suggestions.length > 0 && (
-        <div className="absolute z-10 w-[440px] mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl max-h-48 overflow-auto">
+        <div className="absolute z-10 w-[445px] h-[130px] bg-gray-800 border border-gray-600 rounded-lg shadow-xl overflow-auto">
           {suggestions.map((name) => (
             <button
               key={name}
