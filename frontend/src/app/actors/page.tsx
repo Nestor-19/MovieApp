@@ -3,6 +3,29 @@
 export default function PushActorsPage() {
   const API_KEY = '56ef84025b5c2298b63a9827b2a6c633';
 
+const bingoTime = async () => {
+  try {
+    const res = await fetch('http://localhost:8080/api/movies/filterMovies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' 
+    });
+
+    const text = await res.json();
+
+    if (res.ok) {
+      alert('Success: ' + text);
+    } else {
+      console.log('Failed: ' + text);
+    }
+  } catch (error) {
+    console.error('Error calling filterMovies:', error);
+    alert('Error: ');
+  }
+};
+
 
 const fetchTop1000Movies = async () => {
   alert("Started fetching top 1000 movies...");
@@ -139,6 +162,11 @@ const fetchTop1000Movies = async () => {
 
       <button onClick={fetchTop1000Movies}>
         Push Movies
+      </button>
+
+
+         <button onClick={bingoTime}>
+        Press for action
       </button>
     </div>
   );
