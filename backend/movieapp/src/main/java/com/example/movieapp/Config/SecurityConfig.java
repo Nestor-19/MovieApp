@@ -1,7 +1,5 @@
 package com.example.movieapp.Config;
 
-
-import com.example.movieapp.Enums.UserRole;
 import com.example.movieapp.Models.User;
 import com.example.movieapp.Repository.UserRepo;
 import com.example.movieapp.Service.CurrentUserService;
@@ -40,9 +38,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection (be careful with this)
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests
-                        .requestMatchers("/movie/addToWatchlist").authenticated() // Require authentication for /movie/addToWatchlist
+                        .requestMatchers("/api/watchlist/**").authenticated()
                         .anyRequest().authenticated() // Ensure other requests require authentication
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -64,9 +63,11 @@ public class SecurityConfig {
                                 user.setFirstname(givenName);
                                 user.setLastname(familyName);
                                 user.setEmail(email);
-                                user.setWatchedList(new ArrayList<>());
                                 user.setWatchlist(new ArrayList<>());
                                 userRepo.save(user);
+                            }else if (user.getAge() == null || user.getAge() == 0) {
+
+                                response.sendRedirect("http://localhost:3001/enterAge");
                             }else{
                                 System.out.println("User exists");
                             }
@@ -80,8 +81,4 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-
-
-
-
 }

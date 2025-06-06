@@ -17,13 +17,12 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   if (!isMounted) return null;
 
  const isLoginPage = pathname === "/login";
-  const isLandingPage = pathname === "/";
+const isLandingPage = pathname === "/";
 
-  return (
-    <>
-      { (
-        isLoginPage ?   <Outbar /> :  <Navbar />
-      )}
+return (
+  <>
+    {(isLoginPage || isLandingPage) ? <Outbar /> : <Navbar />}
+
       <div
         className="
           min-h-screen flex items-center justify-center

@@ -1,55 +1,54 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
-        <header style={{ backgroundColor: '#365074' }}>
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <div className="text-3xl font-bold text-white">MovieApp</div>
+    <header style={{ backgroundColor: "#384c6e" }}>
 
-        {/* Horizontal nav links */}
- <ul className="flex items-center list-none p-0 ">
+      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/dashboard" legacyBehavior>
+          <a
+            className="text-xl font-bold text-blue-400 hover:text-blue-300 no-underline cursor-pointer"
+            aria-label="Go to dashboard"
+          >
+            MovieApp
+          </a>
+        </Link>
+
+        {/* Right-side links for unauthenticated users */}
+        <ul className="flex items-center list-none p-0 m-0 space-x-6">
           <li>
             <a
-              href="/"
-              className="text-gray-200 hover:text-yellow-500 transition pr-3 text-2xl"
+              href="/generateMovie"
+              className="text-white hover:text-yellow-500 transition"
             >
-              Home
+              Generate Movie
             </a>
           </li>
           <li>
             <a
-              href="/"
-              className="text-gray-200 hover:text-yellow-500 transition pr-3 text-2xl"
-            >
-              Generate Film
-            </a>
-          </li>
-          <li>
-            <a
-              href="/watchedlist"
-              className="text-gray-200 hover:text-yellow-500 transition pr-3 text-2xl"
+              href="/watchedList"
+              className="text-white hover:text-yellow-500 transition"
             >
               Watched List
             </a>
           </li>
-          <li>
+
+           <li>
             <a
-              href="/watchlist"
-              className="text-gray-200 hover:text-yellow-500 transition pr-3 text-2xl"
+              href="/wishList"
+              className="text-white hover:text-yellow-500 transition"
             >
-              Watchlist
+              WishList
             </a>
           </li>
 
-          <li>
+           <li>
             <a
-              href="/logout"
-              className="text-gray-200 hover:text-yellow-500 transition pr-3"
+              href="/actors"
+              className="text-white hover:text-yellow-500 transition"
             >
-              <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">
-  Log out
-</button>
-
-              
+              Actors
             </a>
           </li>
         </ul>

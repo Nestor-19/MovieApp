@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
+
 @Document(collection = "users")
 @Data
 @Builder
@@ -16,15 +16,22 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class User {
 
-
     @Id
     private String email;
     private String firstname;
     private String lastname;
-    private int age;
-    private ArrayList<String> watchlist;
-    private ArrayList<String> watchedList;
+    private Integer age;
+    private ArrayList<WatchListItem> watchlist = new ArrayList<>();
+    private ArrayList<WatchListItem> wishlist = new ArrayList<>();
     private UserRole role;
+
+    public ArrayList<WatchListItem> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(ArrayList<WatchListItem> wishlist) {
+        this.wishlist = wishlist;
+    }
 
     public String getEmail() {
         return email;
@@ -50,27 +57,27 @@ public class User {
         this.lastname = lastname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public ArrayList<String> getWatchlist() {
+    public ArrayList<WatchListItem> getWatchlist() {
         return watchlist;
     }
 
-    public void setWatchlist(ArrayList<String> watchlist) {
+    public void setWatchlist(ArrayList<WatchListItem> watchlist) {
         this.watchlist = watchlist;
     }
 
-    public ArrayList<String> getWatchedList() {
-        return watchedList;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setWatchedList(ArrayList<String> watchedList) {
-        this.watchedList = watchedList;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

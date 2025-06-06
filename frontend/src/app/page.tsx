@@ -5,11 +5,8 @@ export default function Home() {
   
       <div
         className="
-          min-h-screen flex items-center justify-center
-          bg-thio from-slate-800 to-black
-          px-4 py-10
-        "
-      >
+          flex mb-12 justify-center
+          bg-thio from-slate-800 to-black">
         <main
           className="
             bg-thio shadow-lg rounded-2xl p-10
@@ -17,7 +14,7 @@ export default function Home() {
             flex flex-col gap-6 items-center
           "
         >
-          <div className="border border-pink p-6 rounded-lg w-full text-center">
+<div className=" p-6 rounded-lg w-[400px] text-center">
             <h1 className="text-6xl font-bold text-yellow-400">MovieApp</h1>
             <p className="text-gray-600 text-lg mt-2 mb-6">
               Sign in to continue using MovieApp
