@@ -84,7 +84,6 @@ export default function MovieCard({ movie }: Props) {
   };
 
   const addToWishlist = async (tmdbId: number) => {
-    alert("Clicked watchlist btn");
     const { runtime } = await fetchMovieDetails(movie.id);
 
     const payload: Movie = {
@@ -112,7 +111,7 @@ export default function MovieCard({ movie }: Props) {
     );
 
       if (response.ok) {
-        setSuccessMsg("✅ Movie successfully added to your watchlist!");
+        setSuccessMsg("✅ Movie successfully added to your wish list!");
         setFailMsg("");
       } else {
         const errorText = await response.json();
