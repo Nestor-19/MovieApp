@@ -65,10 +65,14 @@ public class SecurityConfig {
                                 user.setEmail(email);
                                 user.setWatchlist(new ArrayList<>());
                                 userRepo.save(user);
-                            }else if (user.getAge() == null || user.getAge() == 0) {
+                            }
 
-                                response.sendRedirect("http://localhost:3001/enterAge");
-                            }else{
+//                            else if (user.getAge() == null || user.getAge() == 0) {
+//
+//                                response.sendRedirect("http://localhost:3001/enterAge");
+//                            }
+
+                            else{
                                 System.out.println("User exists");
                             }
 
