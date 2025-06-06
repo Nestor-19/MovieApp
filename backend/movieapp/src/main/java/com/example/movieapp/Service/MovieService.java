@@ -3,15 +3,20 @@ package com.example.movieapp.Service;
 
 import com.example.movieapp.Models.Actor;
 import com.example.movieapp.Models.Movie;
+import com.example.movieapp.Models.User;
+import com.example.movieapp.Models.WatchListItem;
 import com.example.movieapp.Repository.ActorRepo;
 import com.example.movieapp.Repository.MovieRepo;
+import com.example.movieapp.Repository.UserRepo;
 import com.example.movieapp.dtos.ActorDto;
 import com.example.movieapp.dtos.ActorsListDto;
 import com.example.movieapp.dtos.MovieDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,7 @@ public class MovieService {
     private ActorRepo actorRepo;
 
     private RestTemplate restTemplate = new RestTemplate();
+
 
     public void addMovies(List<MovieDto> movies){
        try {

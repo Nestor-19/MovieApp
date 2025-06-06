@@ -41,6 +41,8 @@ public class WatchListController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
+
     @DeleteMapping("/{tmdbId}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Integer tmdbId) {
         watchListService.removeMovie(oidcUser.getEmail(), tmdbId);
