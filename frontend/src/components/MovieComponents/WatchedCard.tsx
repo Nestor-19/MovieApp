@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";
+import { HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/outline';
+import { HandThumbUpIcon as HandThumbUpSolid, HandThumbDownIcon as HandThumbDownSolid } from '@heroicons/react/24/solid';
 
 export interface WatchedMovie {
   tmdbId: string;
@@ -16,16 +18,18 @@ type Props = {
   movie: WatchedMovie;
   onRemove: (id: string) => void;
   onLikeChange: (id: string, liked: boolean) => void;
+  controllerPath: string;
+  isWishlistPage?: boolean;
 };
 
-export default function WatchedCard({ movie, onRemove, onLikeChange }: Props) {
+export default function WatchedCard({ movie, onRemove, controllerPath, isWishlistPage, onLikeChange }: Props) {
     const [busy, setBusy] = useState(false);
     const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
     const remove = async () => {
         setBusy(true);
         try {
-            const res = await fetch(`${backendUrl}/api/watchlist/${movie.tmdbId}`, {
+            const res = await fetch(`${backendUrl}/api/${controllerPath}/${movie.tmdbId}`, {
                 method: "DELETE",
                 credentials: "include",
             });
@@ -46,7 +50,7 @@ export default function WatchedCard({ movie, onRemove, onLikeChange }: Props) {
     const toggle = async (liked: boolean) => {
         setBusy(true);
         try {
-            const res = await fetch(`${backendUrl}/api/watchlist/${movie.tmdbId}?liked=${liked}`, {
+            const res = await fetch(`${backendUrl}/api/${controllerPath}/${movie.tmdbId}?liked=${liked}`, {
                 method: "PUT",
                 credentials: "include",
             });
@@ -65,16 +69,16 @@ export default function WatchedCard({ movie, onRemove, onLikeChange }: Props) {
     };
 
     return (
-        <div className="relative group w-72 bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-4 hover:scale-105 transition-transform">
+        <div className="relative group w-72 bg-pink-800 rounded-xl shadow-lg border border-gray-700 p-4 hover:scale-105 transition-transform">
             {/* REMOVE BUTTON */}
-            <button
-                onClick={remove}
-                disabled={busy}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                title="Remove from watched"
+                    <div
+            onClick={remove}
+            className="absolute bg-white p-1 top-2 right-2 text-red border border-white hover:border-gray-300 rounded-[3px]"
+            title="Remove from watched"
             >
-                <FaTrash />
-            </button>
+            <FaTrash />
+            </div>
+
 
             {/* IMAGE */}
             <img
@@ -99,20 +103,23 @@ export default function WatchedCard({ movie, onRemove, onLikeChange }: Props) {
 
             {/* THUMBS UP / DOWN */}
             <div className="flex justify-center space-x-6">
-                <button
-                    onClick={() => toggle(true)}
-                    disabled={busy}
-                    className={`text-2xl ${movie.liked === true ? "text-green-400" : "text-gray-500"} hover:text-green-300`}
+                            {!isWishlistPage && (
+            <>
+                <div
+                onClick={() => toggle(true)}
+                className={`text-2xl ${movie.liked === true ? "text-green-400" : "text-gray-500"} hover:text-green-300`}
                 >
-                    <FaThumbsUp />
-                </button>
-                <button
-                    onClick={() => toggle(false)}
-                    disabled={busy}
-                    className={`text-2xl ${movie.liked === false ? "text-red-400" : "text-gray-500"} hover:text-red-300`}
+                <FaThumbsUp />
+                </div>
+                <div
+                onClick={() => toggle(false)}
+                className={`text-2xl ${movie.liked === false ? "text-red-400" : "text-gray-500"} hover:text-red-300`}
                 >
-                    <FaThumbsDown />
-                </button>
+                <FaThumbsDown />
+                </div>
+            </>
+            )}
+
             </div>
         </div>
     );

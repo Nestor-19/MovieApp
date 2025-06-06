@@ -36,7 +36,7 @@ export default function Navbar() {
 
            <li>
             <a
-              href="/generateMovie"
+              href="/wishList"
               className="text-white hover:text-yellow-500 transition"
             >
               WishList

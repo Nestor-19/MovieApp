@@ -85,18 +85,39 @@ export default function MovieCard({ movie }: Props) {
 
   const addToWishlist = async (tmdbId: number) => {
     alert("Clicked watchlist btn");
+    const { runtime } = await fetchMovieDetails(movie.id);
+
+    const payload: Movie = {
+      tmdbId:       movie.id.toString(),
+      title:        movie.title,
+      description:  movie.overview,
+      image:        imageUrl,
+      runTime:      runtime,
+      genres:       genreNames,
+      rating:       Math.round(movie.vote_average),
+    };
+
     try {
-      const response = await fetch(`${backendUrl}/api/movie/add/${tmdbId}`, {
+      const response = await fetch(`${backendUrl}/api/wishlist/addToWishlist`, {
         method: "POST",
-        credentials: "include",
-      });
+        credentials: "include", 
+        body: JSON.stringify(payload),
+        headers:{
+             "Content-Type": "application/json",
+             
+        }
+
+      },
+       
+    );
 
       if (response.ok) {
         setSuccessMsg("✅ Movie successfully added to your watchlist!");
         setFailMsg("");
       } else {
-        const errorText = await response.text();
-        setFailMsg(`❌ ${errorText}`);
+        const errorText = await response.json();
+        setFailMsg(`❌ ${errorText.message}`);
+        console.log(errorText)
         setSuccessMsg("");
       }
     } catch (error) {
