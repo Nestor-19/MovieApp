@@ -22,6 +22,7 @@ public class Movie {
     private String image;
     private int runTime;
     private ArrayList<String> genres;
+    private ArrayList<String> reviews;
     private int rating;
 
     public String getTmdbId() {
@@ -71,6 +72,16 @@ public class Movie {
     public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
     }
+
+    public ArrayList<String> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ArrayList<String> reviews) {
+        this.reviews = reviews;
+    }
+
+
 
     public int getRating() {
         return rating;
