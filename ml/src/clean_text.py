@@ -32,10 +32,14 @@ def clean(text):
 # Apply clean() to each row
 df["clean_desc"] = df["description"].fillna("").apply(clean)
 
-df["clean_reviews"] = (
-    df["reviews"]
-    .apply(lambda lst: " ".join(clean(r) for r in lst))
+df["clean_reviews_list"] = df["reviews"].apply(
+    lambda lst: [clean(r) for r in lst]
 )
+
+# df["clean_reviews"] = (
+#     df["reviews"]
+#     .apply(lambda lst: " ".join(clean(r) for r in lst))
+# )
 
 df.to_parquet(OUT_FILE, index=False)
 print(f"Cleaned movie description + reviews written to {OUT_FILE}")
