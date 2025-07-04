@@ -12,8 +12,8 @@ SNAP_DIR  = "ml/data/raw"
 def main():
     client = MongoClient(MONGO_URI)
     
-    movies = list(client.MovieMind.movies.find({}, {"_id":0}))
-    actors = list(client.MovieMind.actors.find({}, {"_id":0}))
+    movies = list(client.MovieMind.movies.find({}))
+    actors = list(client.MovieMind.actors.find({}))
     
     today  = pd.Timestamp("today").strftime("%Y-%m-%d")
     pd.DataFrame(movies).to_parquet(f"{SNAP_DIR}/movies_{today}.parquet", index=False)

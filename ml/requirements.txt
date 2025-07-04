@@ -5,3 +5,4 @@ pyarrow
 transformers>=4.0
 torch>=2.0
 sentence-transformers>=2.7
+qdrant-client>=1.7.0
