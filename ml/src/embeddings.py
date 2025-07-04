@@ -1,10 +1,6 @@
 """
 Create ONE 384-dimensional vector for every movie:
-  - Encode description + reviews with MiniLM-L6-v2
-  - Combine description/review vectors with the same weights used for sentiment:
-        0 reviews  => 1.0 * desc
-        1 review   => (0.7 * desc) + (0.3 * rev)
-        ≥ 2 reviews => (0.4 * desc) + (0.6 * mean(reviews))
+  - Encode description with MiniLM-L6-v2
   - L2-normalise the final vector (good practice for ANN search)
   - Save to  ml/data/processed/movies_embeddings.parquet
 Run:  python -m ml.src.embeddings
@@ -31,19 +27,7 @@ vectors = [] # store very movie vector
 
 for _, row in df.iterrows():
     desc_vector = embed(row['clean_desc'])
-    
-    reviews = row['clean_reviews_list']
-    rev_vectors = [embed(r) for r in reviews]
-    
-    n = len(rev_vectors)
-    if n == 0:
-        movie_vector = desc_vector
-    elif n == 1: 
-        movie_vector = 0.7*desc_vector + 0.3*rev_vectors[0]
-    else:          
-        mean_review  = np.mean(rev_vectors, axis=0)
-        movie_vector = 0.4*desc_vector + 0.6*mean_review
-    
+    movie_vector = desc_vector
     
     # final normalisation 
     movie_vector_length = np.linalg.norm(movie_vector)
