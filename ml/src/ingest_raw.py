@@ -1,6 +1,6 @@
 """
 Pull movies + actors from MongoDB and write raw snapshots to data/raw
-Run:  python -m ml.src.ingest
+Run:  python -m ml.src.ingest_raw
 """
 
 import os, pandas as pd
