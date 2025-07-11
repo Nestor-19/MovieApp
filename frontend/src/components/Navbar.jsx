@@ -2,10 +2,12 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
+  // Example: user credits fetched or passed as props
   const [userCredits, setUserCredits] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false); // To manage the state of search pane/modal
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false); // Dropdown for profile
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -21,6 +23,10 @@ export default function Navbar() {
 
   const toggleSearchPane = () => {
     setSearchOpen(!searchOpen);
+  };
+
+  const toggleProfileDropdown = () => {
+    setProfileDropdownOpen(!profileDropdownOpen);
   };
 
   return (
@@ -39,23 +45,20 @@ export default function Navbar() {
         {/* Right-side links and credits */}
         <div className="flex items-center space-x-6">
           <ul className="flex items-center list-none p-0 m-0 space-x-6">
-
             <li>
-             
-          <div
-                  className="text-white bg-purple-700 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
-                  aria-label="Search"
-                  title="Search"
-                   onClick={toggleSearchPane}
-                >
-                  <img
-                    src="/navIcons/search.png"
-                    alt="Generate Movie"
-                    className="w-5 h-5 mr-2"
-                  />
-                  Search
-                </div>
-
+              <div
+                className="text-white bg-purple-700 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
+                aria-label="Search"
+                title="Search"
+                onClick={toggleSearchPane}
+              >
+                <img
+                  src="/navIcons/search.png"
+                  alt="Search"
+                  className="w-5 h-5 mr-2"
+                />
+                Search
+              </div>
             </li>
             <li>
               <a href="/generateMovie" className="no-underline">
@@ -105,11 +108,8 @@ export default function Navbar() {
                 </div>
               </a>
             </li>
-          </ul>
 
-
-          
-          {/* User credits display */}
+              {/* User credits display */}
           <a href="/buyCredits" className="no-underline">
             <div
               className="text-white bg-pink-700 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
@@ -120,6 +120,54 @@ export default function Navbar() {
               <span>Credits Left: {userCredits}</span>
             </div>
           </a>
+
+            {/* Profile Dropdown */}
+            <li className="relative">
+              <div
+
+                onClick={toggleProfileDropdown}
+                className="text-white bg-blue-600 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
+              >
+                <img
+                  src="/navIcons/profileIcon.png"
+                  alt="Profile"
+                  className="w-5 h-5 mr-2"
+                  
+                />
+                Profile
+              </div>
+              {/* Dropdown Menu */}
+              {profileDropdownOpen && (
+                <div className="absolute top-12 right-0 bg-white shadow-lg rounded-md w-48 z-50">
+                  <ul>
+                    <li>
+
+                        <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
+                          View Profile
+                        </a>
+
+                    </li>
+                    <li>
+
+                        <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
+                          Settings
+                        </a>
+
+                    </li>
+                    <li>
+
+                        <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
+                          Logout
+                        </a>
+
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </li>
+          </ul>
+
+        
         </div>
       </nav>
 
@@ -127,11 +175,11 @@ export default function Navbar() {
       {searchOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-          onClick={toggleSearchPane} 
+          onClick={toggleSearchPane}
         >
           <div
-            className=" bg-thio from-slate-800 to-black p-6 rounded-lg w-96 "
-            onClick={(e) => e.stopPropagation()} 
+            className="bg-thio from-slate-800 to-black p-6 rounded-lg w-96"
+            onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-xl font-semibold mb-4 text-white">Search Movies</h3>
             <input
@@ -139,7 +187,7 @@ export default function Navbar() {
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Type movie name..."
-                className="w-4/5 p-2 border border-gray-300 rounded-md"
+              className="w-4/5 p-2 border border-gray-300 rounded-md"
             />
             <div className="mt-4 flex justify-start">
               <button
