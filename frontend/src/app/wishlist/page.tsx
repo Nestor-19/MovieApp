@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import WatchedCard, {WatchedMovie} from "@/components/MovieComponents/WatchedCard";
 import WishListCard  from "@/components/MovieComponents/WishListCard";
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 export default function WatchedListPage() {
   const [movies, setMovies] = useState<WatchedMovie[]>([]);
@@ -45,12 +46,19 @@ export default function WatchedListPage() {
    <h1 className="text-white text-5xl font-bold text-center mb-6">Your WishList</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map(movie => (
+           <motion.div
+              key={movie.tmdbId}
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
           <WishListCard
             key={movie.tmdbId}
             movie={movie}
             onRemove={handleRemove}
-
           />
+          </motion.div>
         ))}
       </div>
     </div>
