@@ -26,7 +26,7 @@ clf = pipeline(
     device=-1
 )
 
-EMOTIONS = ["anger", "disgust", "fear", "joy", "neutral", "sadness", "surprise"]
+EMOTIONS = ["Happy", "Inspired", "Excited", "Romantic", "Nostalgic", "Surprised", "Tense", "Scary","Disgusted","Angry","Sad"]
 
 def score(text: str) -> dict:
     """Run model on ONE text -> {emotion: probability}."""

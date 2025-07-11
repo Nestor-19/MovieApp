@@ -1,0 +1,80 @@
+{
+  "The Dark Knight": {
+    "Happy": 0.2,
+    "Inspired": 0.4,
+    "Excited": 0.85,
+    "Romantic": 0.1,
+    "Nostalgic": 0.3,
+    "Surprised": 0.75,
+    "Tense": 0.95,
+    "Scary": 0.8,
+    "Disgusted": 0.5,
+    "Angry": 0.6,
+    "Sad": 0.4
+  },
+  "American Psycho": {
+    "Happy": 0.1,
+    "Inspired": 0.05,
+    "Excited": 0.4,
+    "Romantic": 0.15,
+    "Nostalgic": 0.1,
+    "Surprised": 0.6,
+    "Tense": 0.85,
+    "Scary": 0.75,
+    "Disgusted": 0.8,
+    "Angry": 0.5,
+    "Sad": 0.3
+  },
+  "The Shawshank Redemption": {
+    "Happy": 0.4,
+    "Inspired": 0.9,
+    "Excited": 0.3,
+    "Romantic": 0.1,
+    "Nostalgic": 0.5,
+    "Surprised": 0.6,
+    "Tense": 0.7,
+    "Scary": 0.2,
+    "Disgusted": 0.3,
+    "Angry": 0.5,
+    "Sad": 0.8
+  },
+  "La La Land": {
+    "Happy": 0.8,
+    "Inspired": 0.85,
+    "Excited": 0.7,
+    "Romantic": 0.9,
+    "Nostalgic": 0.75,
+    "Surprised": 0.6,
+    "Tense": 0.3,
+    "Scary": 0.0,
+    "Disgusted": 0.0,
+    "Angry": 0.1,
+    "Sad": 0.65
+  },
+  "Her": {
+    "Happy": 0.5,
+    "Inspired": 0.7,
+    "Excited": 0.4,
+    "Romantic": 0.8,
+    "Nostalgic": 0.6,
+    "Surprised": 0.5,
+    "Tense": 0.3,
+    "Scary": 0.1,
+    "Disgusted": 0.1,
+    "Angry": 0.2,
+    "Sad": 0.75
+  },
+  "Get Out": {
+    "Happy": 0.1,
+    "Inspired": 0.3,
+    "Excited": 0.5,
+    "Romantic": 0.1,
+    "Nostalgic": 0.05,
+    "Surprised": 0.8,
+    "Tense": 0.9,
+    "Scary": 0.85,
+    "Disgusted": 0.7,
+    "Angry": 0.65,
+    "Sad": 0.4
+  }
+}
