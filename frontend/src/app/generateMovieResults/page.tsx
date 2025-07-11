@@ -67,6 +67,7 @@ export default function GenerateMovieResults() {
       <div className="px-6 py-8">
 <div className="flex items-center justify-center">
   <h1 className="text-white text-4xl font-bold">Your Recommendations...</h1>
+  
 </div>
 
 
