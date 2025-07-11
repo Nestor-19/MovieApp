@@ -63,6 +63,7 @@ public class SecurityConfig {
                                 user.setFirstname(givenName);
                                 user.setLastname(familyName);
                                 user.setEmail(email);
+                                user.setCredits(20);
                                 user.setWatchlist(new ArrayList<>());
                                 userRepo.save(user);
                             }else{

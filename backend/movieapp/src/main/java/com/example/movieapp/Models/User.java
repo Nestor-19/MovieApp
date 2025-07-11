@@ -24,6 +24,15 @@ public class User {
     private ArrayList<WatchListItem> watchlist = new ArrayList<>();
     private ArrayList<WatchListItem> wishlist = new ArrayList<>();
     private UserRole role;
+    private int credits;
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
 
     public ArrayList<WatchListItem> getWishlist() {
         return wishlist;

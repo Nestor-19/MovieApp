@@ -37,3 +37,4 @@ build/
 
 ### VS Code ###
 .vscode/
+backend/movieapp/src/main/resources/application.properties
