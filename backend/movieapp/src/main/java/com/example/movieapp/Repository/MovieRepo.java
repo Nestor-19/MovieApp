@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public interface MovieRepo extends MongoRepository<com.example.movieapp.Models.Movie, String> {
 
     Movie findByTmdbId(String id);
+    ArrayList<Movie> findByTmdbIdIn(ArrayList<String> ids);
     ArrayList<Movie> findAll();
 
 }
