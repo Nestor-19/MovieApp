@@ -4,18 +4,28 @@ import { useState, useEffect } from "react";
 export default function Navbar() {
   const [userCredits, setUserCredits] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false); // To manage the state of search pane/modal
 
   useEffect(() => {
     const fetchCredits = async () => {
       await new Promise((r) => setTimeout(r, 500));
-      setUserCredits(42);
+      setUserCredits(42); // Replace with real credits
     };
     fetchCredits();
   }, []);
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const toggleSearchPane = () => {
+    setSearchOpen(!searchOpen);
+  };
+
   return (
     <header style={{ backgroundColor: "#384c6e" }}>
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between flex-wrap">
+      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/dashboard" legacyBehavior>
           <a
@@ -26,45 +36,27 @@ export default function Navbar() {
           </a>
         </Link>
 
-        {/* Hamburger button for mobile */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 rounded bg-transparent focus:outline-none"
-          aria-label="Toggle menu"
-          style={{ backgroundColor: "transparent" }}
-        >
-          <svg
-            className="w-6 h-6 stroke-pink-500"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {menuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+        {/* Right-side links and credits */}
+        <div className="flex items-center space-x-6">
+          <ul className="flex items-center list-none p-0 m-0 space-x-6">
 
-        {/* Menu links & credits */}
-        <div
-          className={`w-full md:flex md:items-center md:w-auto ${
-            menuOpen ? "block" : "hidden"
-          }`}
-        >
-          <ul className="flex flex-col md:flex-row md:space-x-6 space-y-3 md:space-y-0 p-0 m-0 list-none">
-            {/* Added list-none here to remove bullet points */}
+            <li>
+             
+          <div
+                  className="text-white bg-purple-700 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
+                  aria-label="Search"
+                  title="Search"
+                   onClick={toggleSearchPane}
+                >
+                  <img
+                    src="/navIcons/search.png"
+                    alt="Generate Movie"
+                    className="w-5 h-5 mr-2"
+                  />
+                  Search
+                </div>
+
+            </li>
             <li>
               <a href="/generateMovie" className="no-underline">
                 <div
@@ -106,7 +98,7 @@ export default function Navbar() {
                 >
                   <img
                     src="/navIcons/wishlist.png"
-                    alt="wishlist"
+                    alt="Wishlist"
                     className="w-5 h-5 mr-2"
                   />
                   Wishlist
@@ -115,8 +107,10 @@ export default function Navbar() {
             </li>
           </ul>
 
+
+          
           {/* User credits display */}
-          <a href="/buyCredits" className="no-underline mt-4 md:mt-0 md:ml-6 block">
+          <a href="/buyCredits" className="no-underline">
             <div
               className="text-white bg-pink-700 px-3 py-1 rounded-md font-semibold flex items-center space-x-2"
               aria-label="User credits"
@@ -128,6 +122,42 @@ export default function Navbar() {
           </a>
         </div>
       </nav>
+
+      {/* Search Pane/Modal */}
+      {searchOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+          onClick={toggleSearchPane} 
+        >
+          <div
+            className=" bg-thio from-slate-800 to-black p-6 rounded-lg w-96 "
+            onClick={(e) => e.stopPropagation()} 
+          >
+            <h3 className="text-xl font-semibold mb-4 text-white">Search Movies</h3>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Type movie name..."
+                className="w-4/5 p-2 border border-gray-300 rounded-md"
+            />
+            <div className="mt-4 flex justify-start">
+              <button
+                onClick={toggleSearchPane}
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSearch}
+                className="px-4 py-2 bg-green-500 text-white rounded-md"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

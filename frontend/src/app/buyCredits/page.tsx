@@ -36,7 +36,7 @@ export default function BuyCredits() {
   aria-label="User credits"
   title="Your available credits"
 >
-  <img src="icons/buyCredits.png" alt="Buy Credits" className="w-132 h-132" />
+  <img src="icons/buyCredits.png" alt="Buy Credits" className="w-232 h-232" />
     <div className="flex flex-col">
     <h1 className="text-5xl font-bold">Your Remaining Credits:</h1>
   <div
