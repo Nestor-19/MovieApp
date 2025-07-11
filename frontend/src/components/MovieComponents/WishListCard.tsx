@@ -68,12 +68,6 @@ export default function WishListCard({ movie, onRemove }: Props) {
       style={{ transformOrigin: "center" }}
     >            {/* REMOVE BUTTON */}
  
-  <img
-    src="/icons/removeIcon.png"
-    alt="Remove from wishlist"
-    className="absolute top-6 right-5 z-50 w-6 h-6 hover:opacity-80 transition-opacity duration-300"
-      onClick={remove}
-  />
 
 
                 <div className="relative rounded-md overflow-hidden">
@@ -100,6 +94,19 @@ export default function WishListCard({ movie, onRemove }: Props) {
       >
         {movie.title}
       </h3>
+   <button
+  onClick={remove}
+  disabled={busy}
+  className="z-50 bg-red-600 backdrop-blur-sm p-2 hover:bg-red-700 mb-4 hover:bg-opacity-80 transition duration-300 w-full"
+  title="Remove from wishlist"
+>
+  <img
+    src="/icons/whiteRemoveIcon.png"
+    alt="Remove from wishlist"
+    className="w-6 h-6 hover:opacity-80 transition-opacity duration-300 mx-auto"
+  />
+</button>
+
 
             {/* RUNTIME / RATING */}
             <div className="flex justify-between text-gray-300 text-sm mb-2">
