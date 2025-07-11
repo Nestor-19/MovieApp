@@ -150,14 +150,16 @@ export default function MovieCard({ movie }: Props) {
         <button
           onClick={() => addToWishlist(movie.id)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
-                     transition-transform duration-300 group-hover:scale-105"
+                     transition-transform duration-300 group-hover:scale-105 text-xl"
+                      style={{ fontFamily: "'VT323', monospace" }}
         >
           Add to wish list
         </button>
         <button
           onClick={() => addToWatchlist()}
           className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
-                     transition-transform duration-300 group-hover:scale-105"
+                     transition-transform duration-300 group-hover:scale-105 text-xl"
+                      style={{ fontFamily: "'VT323', monospace" }}
         >
           Watched?
         </button>

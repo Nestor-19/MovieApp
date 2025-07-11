@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 const MOODS = [
   { name: "Happy", emoji: "😊", color: "from-yellow-500 to-orange-500" },
@@ -20,7 +21,13 @@ export default function MoodStep({ value, onChange }: Props) {
         <h2 className="text-2xl font-bold text-white mb-2">What's your mood?</h2>
         <p className="text-gray-400">Choose the mood that matches how you're feeling right now</p>
       </div>
+  <motion.div
 
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {MOODS.map((mood) => (
           <button
@@ -51,7 +58,7 @@ export default function MoodStep({ value, onChange }: Props) {
           </button>
         ))}
       </div>
-
+</motion.div>
       <div className="text-center">
         <p className="text-sm text-gray-500">
           <span className="text-red-400">*</span> Required field

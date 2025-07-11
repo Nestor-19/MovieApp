@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 const ALL_GENRES = [
   { name: "Drama", emoji: "🎭" },
@@ -30,7 +31,13 @@ export default function GenresStep({ selected, onChange }: Props) {
         <h2 className="text-2xl font-bold text-white mb-2">Pick your genres</h2>
         <p className="text-gray-400">Select up to 3 genres you're interested in (optional)</p>
       </div>
+ <motion.div
 
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {ALL_GENRES.map((genre) => {
           const isSelected = selected.includes(genre.name)
@@ -63,7 +70,7 @@ export default function GenresStep({ selected, onChange }: Props) {
           )
         })}
       </div>
-
+            </motion.div>
       <div className="flex items-center justify-between text-sm">
         <span className="text-gray-400">Selected: {selected.length} / 3</span>
         {selected.length > 0 && (

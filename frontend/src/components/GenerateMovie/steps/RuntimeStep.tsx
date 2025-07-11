@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 type Props = {
   value: number
@@ -25,6 +26,13 @@ export default function RuntimeStep({ value, onChange }: Props) {
   const timeCategory = getTimeCategory(value)
 
   return (
+     <motion.div
+
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
     <div className="space-y-6 max-h-full overflow-y-auto">
       <div className="text-center">
         <h2 className="text-2xl font-bold text-white mb-2">Maximum runtime</h2>
@@ -99,5 +107,6 @@ export default function RuntimeStep({ value, onChange }: Props) {
               : "an epic movie marathon"}
       </div>
     </div>
+    </motion.div>
   )
 }

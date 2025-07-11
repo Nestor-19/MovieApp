@@ -26,6 +26,7 @@ import com.example.movieapp.dtos.WatchListItemDto;
 public class WatchListController {
     private final WatchListService watchListService;
 
+
     public WatchListController(WatchListService watchListService) {
         this.watchListService = watchListService;
     }
@@ -41,6 +42,8 @@ public class WatchListController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
+
     @DeleteMapping("/{tmdbId}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Integer tmdbId) {
         watchListService.removeMovie(oidcUser.getEmail(), tmdbId);
@@ -55,5 +58,6 @@ public class WatchListController {
 
 
 
-    
+
 }
+
