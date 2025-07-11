@@ -4,7 +4,7 @@ import json
 import os
 
 # Set your OpenAI API key (⚠️ Avoid hardcoding sensitive info!)
-client = openai.OpenAI(api_key="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")  # ← your actual key here
+client = openai.OpenAI(api_key="")  # ← your actual key here
 movie_titles = [...]  # your 900+ movie list
 moods = [
     "Happy", "Inspired", "Excited", "Romantic", "Nostalgic",
