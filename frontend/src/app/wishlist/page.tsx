@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import WatchedCard, {WatchedMovie} from "@/components/MovieComponents/WatchedCard";
+import WishListCard  from "@/components/MovieComponents/WishListCard";
 
 export default function WatchedListPage() {
   const [movies, setMovies] = useState<WatchedMovie[]>([]);
@@ -9,7 +10,7 @@ export default function WatchedListPage() {
   const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
   useEffect(() => {
-    fetch(`${backendUrl}/api/watchlist`, { credentials: "include" })
+    fetch(`${backendUrl}/api/wishlist`, { credentials: "include" })
       .then(res => {
         console.log(res)
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -36,19 +37,19 @@ export default function WatchedListPage() {
   if (error)   return <p className="text-center text-red-500">{error}</p>;
 
   if (movies.length === 0) {
-    return <p className="text-center text-white">Your watched list is empty.</p>;
+    return <p className="text-center text-white">Your wish list is empty.</p>;
   }
 
   return (
     <div className="px-6 py-8">
-   <h1 className="text-white text-5xl font-bold text-center mb-6">Your Watched List</h1>
+   <h1 className="text-white text-5xl font-bold text-center mb-6">Your WishList</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map(movie => (
-          <WatchedCard
+          <WishListCard
             key={movie.tmdbId}
             movie={movie}
             onRemove={handleRemove}
-            onLikeChange={handleLikeChange}
+
           />
         ))}
       </div>

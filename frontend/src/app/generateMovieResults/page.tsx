@@ -64,11 +64,14 @@ export default function GenerateMovieResults() {
   if (error) return <div className="text-red-500">Error: {error}</div>;
   if (submitted)
     return (
-      <div className="px-6 py-8">
-<div className="flex items-center justify-center">
-  <h1 className="text-white text-4xl font-bold">Your Recommendations...</h1>
-  
-</div>
+<div className="px-6 py-8">
+  <div className="flex flex-col items-center justify-center space-y-2">
+    <h1 className="text-white text-4xl font-bold">Your Recommendations...</h1>
+    <p className="text-white text-2xl text-center">
+      Here are some films we think you’ll love based on your preferences...
+    </p>
+  </div>
+
 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
