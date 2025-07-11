@@ -5,7 +5,7 @@ import os
 
 # Set your OpenAI API key (⚠️ Avoid hardcoding sensitive info!)
 client = openai.OpenAI(api_key="")  # ← your actual key here
-movie_titles = [...]  # your 900+ movie list
+movie_titles = [...] # <- Add movie titles here
 moods = [
     "Happy", "Inspired", "Excited", "Romantic", "Nostalgic",
     "Surprised", "Tense", "Scary", "Disgusted", "Angry", "Sad"
