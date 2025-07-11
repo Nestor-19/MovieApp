@@ -13,14 +13,16 @@ export default function RecommendedMovieCard({ movie }) {
   const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
 
-  const fallbackImage = "https://image.tmdb.org/t/p/original/"+image; // Your fallback image path
+  
 
   useEffect(() => {
     async function getRuntime() {
       try {
         const details = await fetchMovieDetails(movie.tmdbId);
+
         setImage(details.poster_path);
       } catch (error) {
+        setImage("https://image.tmdb.org/t/p/original/"+image)
         console.error("Failed to fetch movie runtime:", error);
       }
     }

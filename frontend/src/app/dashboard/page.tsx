@@ -33,6 +33,9 @@ export default async function TopRated({
 
   return (
     <div className="px-6 py-8">
+   <h1 className="text-white text-5xl font-bold text-center mb-6">
+  The Best Films Currently On Screen
+</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map((movie: any) => (
           <MovieCard key={movie.id} movie={movie} />
