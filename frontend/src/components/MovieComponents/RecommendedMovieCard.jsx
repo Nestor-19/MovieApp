@@ -106,7 +106,7 @@ export default function RecommendedMovieCard({ movie }) {
 
       <div className="relative rounded-md overflow-hidden">
         <img
-                src={movie.image || fallbackImage}
+                src={movie.image || imageUrl}
           alt={movie.title}
           className="w-full h-auto object-cover rounded-md"
         />

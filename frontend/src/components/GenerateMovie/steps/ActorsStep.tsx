@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 type Props = {
   selected: string[];
@@ -72,6 +73,13 @@ export default function ActorsStep({ selected, onChange }: Props) {
   };
 
   return (
+      <motion.div
+
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
     <div className="space-y-6">
       {/* Title & instructions */}
       <div className="text-center">
@@ -159,5 +167,6 @@ export default function ActorsStep({ selected, onChange }: Props) {
         </p>
       )}
     </div>
+    </motion.div>
   );
 }

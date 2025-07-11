@@ -6,6 +6,7 @@ import GenresStep from "./steps/GenresStep"
 import ActorsStep from "./steps/ActorsStep"
 import RuntimeStep from "./steps/RuntimeStep"
 import { useRouter } from "next/navigation"  // import router
+import { motion } from "framer-motion";  // Adding framer-motion for animations
 
 export interface GenerateForm {
   mood: string
@@ -82,7 +83,13 @@ export default function Carousel({ watchlist }: Props) {
           <div className="text-white text-lg animate-pulse">Generating your movie picks... 🎥</div>
         </div>
       )}
+   <motion.div
 
+              className="movie-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
       <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 space-y-8 shadow-2xl">
         {/* Progress bar */}
         <div className="space-y-2">
@@ -187,6 +194,7 @@ export default function Carousel({ watchlist }: Props) {
           )}
         </div>
       </div>
+      </motion.div>
     </>
   )
 }
