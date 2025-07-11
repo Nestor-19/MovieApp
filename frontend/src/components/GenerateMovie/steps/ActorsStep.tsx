@@ -25,7 +25,7 @@ export default function ActorsStep({ selected, onChange }: Props) {
   // Fetch all actors once when this component mounts
   useEffect(() => {
     setLoading(true);
-    fetch(`${backendUrl}/api/actors`, { credentials: "include" })
+    fetch(`${backendUrl}/api/actors/getAllActors`, { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<Actor[]>;
