@@ -1,26 +1,15 @@
 package com.example.movieapp.Controllers;
 
-import java.util.List;
-
+import com.example.movieapp.Models.Movie;
 import com.example.movieapp.Service.WishListService;
+import com.example.movieapp.dtos.WatchListItemDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.movieapp.Models.Movie;
-
-import com.example.movieapp.Service.WatchListService;
-import com.example.movieapp.dtos.WatchListItemDto;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/wishlist")
@@ -39,6 +28,7 @@ public class WishListController {
 
     @PostMapping("/addToWishlist")
     public ResponseEntity<Void> addToWishlist(@AuthenticationPrincipal OidcUser oidcUser, @RequestBody Movie movie) {
+
         wishListService.addToWishlist(oidcUser.getEmail(), movie);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

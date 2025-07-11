@@ -20,10 +20,18 @@ public class User {
     private String email;
     private String firstname;
     private String lastname;
-    private int age;
+    private Integer age;
     private ArrayList<WatchListItem> watchlist = new ArrayList<>();
+    private ArrayList<WatchListItem> wishlist = new ArrayList<>();
     private UserRole role;
 
+    public ArrayList<WatchListItem> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(ArrayList<WatchListItem> wishlist) {
+        this.wishlist = wishlist;
+    }
 
     public String getEmail() {
         return email;
@@ -49,11 +57,11 @@ public class User {
         this.lastname = lastname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
