@@ -9,7 +9,7 @@ export default function Outbar() {
         <ul className="flex items-center list-none p-0 m-0 space-x-6">
           <li>
             <a
-              href="/generateMovie"
+              href="/about"
               className="text-white hover:text-yellow-500 transition"
             >
              About us
@@ -17,7 +17,7 @@ export default function Outbar() {
           </li>
           <li>
             <a
-              href="/generateMovie"
+              href="/why"
               className="text-white hover:text-yellow-500 transition"
             >
               Why MovieApp
