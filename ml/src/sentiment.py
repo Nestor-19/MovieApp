@@ -57,8 +57,8 @@ for _, row in df.iterrows():
         w_desc = 0.7
         w_rev = 0.3
     else:
-        w_desc = 0.4
-        w_rev = 0.6
+        w_desc = 0.2
+        w_rev = 0.8
     
     for emo in EMOTIONS:
         final = w_desc * desc_score[emo] + w_rev * mean_rev[emo]

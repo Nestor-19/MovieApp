@@ -1,7 +1,7 @@
 """
 Inspect the 7-emotion sentiment scores for ONE movie.
 Example:
-    python -m ml.src.verify_sentiment --title "Lisbela and the Prisoner"
+    python -m ml.src.verify_sentiment --title ""
 """
 
 import argparse
@@ -9,12 +9,10 @@ from pathlib import Path
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# ------------ command-line ----------
 parser = argparse.ArgumentParser()
 parser.add_argument("--title", required=True, help="Exact movie title to inspect")
 args = parser.parse_args()
 
-# ------------ data ----------
 CLEAN_FILE = Path("ml/data/processed/movies_clean.parquet")
 
 try:
@@ -24,12 +22,11 @@ try:
           .iloc[0]
     )
 except IndexError:
-    raise SystemExit(f"❌  Movie entitled “{args.title}” not found in {CLEAN_FILE}")
+    raise SystemExit(f"Movie titled “{args.title}” not found in {CLEAN_FILE}")
 
 desc_text   = row["clean_desc"]
-reviews     = list(row["clean_reviews_list"])       # may be empty
+reviews     = list(row["clean_reviews_list"])
 
-# ------------ model ----------
 MODEL = "j-hartmann/emotion-english-distilroberta-base"
 tok   = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
@@ -54,11 +51,11 @@ mean_rev = {
 }
 
 n = len(reviews)
-w_desc, w_rev = (1.0, 0.0) if n == 0 else (0.7, 0.3) if n == 1 else (0.4, 0.6)
+w_desc, w_rev = (1.0, 0.0) if n == 0 else (0.7, 0.3) if n == 1 else (0.2, 0.8)
 
 final = {emo: w_desc*desc_scores[emo] + w_rev*mean_rev[emo] for emo in EMOS}
 
-print(f"\n🎬  Sentiment for “{args.title}”")
+print(f"\n Sentiment for “{args.title}”")
 print("-"*60)
 print("Description first 300 chars:")
 print(desc_text[:300] + ("…" if len(desc_text) > 300 else ""))

@@ -48,9 +48,8 @@ movies = movies_sent.join(movies_emb[["text_vec"]])
 print(movies.columns.tolist())
 
 MOOD_MAP = { # UI to model emotion
-    "Happy": "joy", "Inspired": "joy", "Excited": "surprise", "Romantic": "joy",
-    "Nostalgic": "sadness", "Surprised": "surprise", "Tense": "fear",
-    "Scary": "fear", "Disgusted": "disgust", "Angry": "anger", "Sad": "sadness"
+    "Happy": "joy", "Surprised": "surprise", "Scary": "fear", 
+    "Disgusted": "disgust", "Angry": "anger", "Sad": "sadness", "Neutral": "neutral"
 }
 
 # form model
