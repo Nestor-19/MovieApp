@@ -1,12 +1,14 @@
 "use client"
-import { motion } from "framer-motion";  // Adding framer-motion for animations
+import { motion } from "framer-motion";
 
 const MOODS = [
   { name: "Happy", emoji: "😊", color: "from-yellow-500 to-orange-500" },
-  { name: "Sad", emoji: "😢", color: "from-blue-500 to-indigo-500" },
-  { name: "Excited", emoji: "🤩", color: "from-pink-500 to-red-500" },
+  { name: "Surprised", emoji: "😲", color: "from-yellow-500 to-orange-500" },
   { name: "Scary", emoji: "😱", color: "from-purple-500 to-gray-800" },
-  { name: "Romantic", emoji: "💕", color: "from-rose-500 to-pink-500" },
+  { name: "Disgusted", emoji: "🤢", color: "from-purple-500 to-gray-800" },
+  { name: "Angry", emoji: "😡", color: "from-purple-500 to-gray-800" },
+  { name: "Sad", emoji: "😢", color: "from-blue-500 to-indigo-500" },
+  { name: "Neutral", emoji: "😐", color: "from-pink-500 to-red-500" },
 ]
 
 type Props = {
