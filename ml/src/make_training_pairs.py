@@ -19,7 +19,7 @@ import random
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import train_test_split
 
 random.seed(42)
 
@@ -30,7 +30,7 @@ INTER_DIR = DATA_DIR / "interactions"
 LATEST_INT = sorted(INTER_DIR.glob("interactions_*.parquet"))[-1]
 USER_PROF_FILE = PROC_DIR / "user_profiles.parquet"
 MOV_EMB_FILE   = PROC_DIR / "movies_embeddings.parquet"
-MOV_SPLIT_FILE = PROC_DIR / "movies_with_split.parquet"
+# MOV_SPLIT_FILE = PROC_DIR / "movies_with_split.parquet"
 
 OUT_FILE = PROC_DIR / "features_trainvaltest.parquet"
 NEG_RATIO = 2
@@ -99,16 +99,32 @@ for uid, grp in likes_df.groupby("user_id"):
 
 feat_df = pd.DataFrame(rows)
 
-sss = StratifiedShuffleSplit(n_splits=1, test_size=0.15, random_state=42)
-train_idx, val_idx = next(sss.split(feat_df, feat_df["liked"]))
+temp_df, test_df = train_test_split(
+    feat_df,
+    test_size=0.10,
+    stratify=feat_df["liked"],
+    random_state=43
+)
 
-feat_df["split"] = "train"
-feat_df.loc[val_idx, "split"] = "val"
+val_size = 0.15 / 0.90
+train_df, val_df = train_test_split(
+    temp_df,
+    test_size=val_size,
+    stratify=temp_df["liked"],
+    random_state=42
+)
 
-sss2 = StratifiedShuffleSplit(n_splits=1, test_size=0.10, random_state=43)
-new_train_idx, test_idx = next(sss2.split(feat_df.loc[train_idx], feat_df.loc[train_idx, "liked"]))
-feat_df.loc[test_idx, "split"] = "test"
+train_df = train_df.copy()
+val_df   = val_df.copy()
+test_df  = test_df.copy()
+
+train_df["split"] = "train"
+val_df["split"]   = "val"
+test_df["split"]  = "test"
+
+out = pd.concat([train_df, val_df, test_df], ignore_index=True)
 
 OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-feat_df.to_parquet(OUT_FILE, index=False)
-print(f"Feature matrix with {len(feat_df):,} rows → {OUT_FILE}")
+out.to_parquet(OUT_FILE, index=False)
+print(f"Feature matrix with {len(out):,} rows → {OUT_FILE}")
+print(out["split"].value_counts(normalize=True).mul(100).round(2))
