@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";
 
-export interface WishListMovie {
+export interface WatchedMovie {
   tmdbId: number;
   title: string;
   description: string;
@@ -13,19 +13,32 @@ export interface WishListMovie {
 }
 
 type Props = {
-  movie: WishListMovie;
+  movie: WatchedMovie;
   onRemove: (id: number) => void;
-
+  onLikeChange: (id: number, liked: boolean) => void;
 };
 
-export default function WishListCard({ movie, onRemove }: Props) {
+export default function WatchedListCard({ movie, onRemove, onLikeChange }: Props) {
     const [busy, setBusy] = useState(false);
+      const [likedStatus, setLikedStatus] = useState(movie.liked);
+
+  const handleLike = () => {
+    if (busy) return; // Prevent multiple clicks when loading
+    setLikedStatus(true); // Set the liked status to true
+    toggle(true); // Update the parent state (or send to backend)
+  };
+
+  const handleDislike = () => {
+    if (busy) return; // Prevent multiple clicks when loading
+    setLikedStatus(false); // Set the liked status to false
+    toggle(false); // Update the parent state (or send to backend)
+  };
     const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
     const remove = async () => {
         setBusy(true);
         try {
-            const res = await fetch(`${backendUrl}/api/wishlist/${movie.tmdbId}`, {
+            const res = await fetch(`${backendUrl}/api/watchlist/${movie.tmdbId}`, {
                 method: "DELETE",
                 credentials: "include",
             });
@@ -38,6 +51,27 @@ export default function WishListCard({ movie, onRemove }: Props) {
             onRemove(movie.tmdbId);
         } catch (error) {
             console.error("Failed to remove:", error);
+        } finally {
+            setBusy(false);
+        }
+    };
+
+    const toggle = async (liked: boolean) => {
+        setBusy(true);
+        try {
+            const res = await fetch(`${backendUrl}/api/watchlist/${movie.tmdbId}?liked=${liked}`, {
+                method: "PUT",
+                credentials: "include",
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`Update like failed:: ${text}`);
+            }
+
+            onLikeChange(movie.tmdbId, liked);
+        } catch (error) {
+            console.error("Failed to update like:", error);
         } finally {
             setBusy(false);
         }
@@ -149,6 +183,59 @@ export default function WishListCard({ movie, onRemove }: Props) {
         >
           Hover to read more...
         </span>
+
+        {/* THUMBS UP / DOWN */}
+        <div className="flex justify-center space-x-8 mt-4">
+          {/* Thumbs Up Button */}
+          <button
+            onClick={handleLike}
+            disabled={busy}
+            className={`
+              p-4
+              rounded-full
+              bg-gradient-to-r
+              from-green-500
+              to-green-400
+              hover:scale-110
+              transform
+              transition-all
+              duration-300
+              ease-in-out
+              ${likedStatus === true
+                ? "text-white bg-green-600 shadow-xl"
+                : "text-gray-300"}
+              hover:shadow-2xl
+              focus:outline-none
+            `}
+          >
+            <FaThumbsUp className="text-3xl" />
+          </button>
+
+          {/* Thumbs Down Button */}
+          <button
+            onClick={handleDislike}
+            disabled={busy}
+            className={`
+              p-4
+              rounded-full
+              bg-gradient-to-r
+              from-red-500
+              to-red-400
+              hover:scale-110
+              transform
+              transition-all
+              duration-300
+              ease-in-out
+              ${likedStatus === false
+                ? "text-white bg-red-600 shadow-xl"
+                : "text-gray-300"}
+              hover:shadow-2xl
+              focus:outline-none
+            `}
+          >
+            <FaThumbsDown className="text-3xl" />
+          </button>
+        </div>
       </div>
     );
 }

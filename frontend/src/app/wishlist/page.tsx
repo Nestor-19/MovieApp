@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import WatchedCard, {WatchedMovie} from "@/components/MovieComponents/WatchedCard";
+import WatchedCard, {WatchedMovie} from "@/components/MovieComponents/WatchedListCard";
 import WishListCard  from "@/components/MovieComponents/WishListCard";
 import { motion } from "framer-motion";  // Adding framer-motion for animations
 
