@@ -97,7 +97,7 @@ public class WatchListService {
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.getWatchlist().removeIf(item -> item.getMovieid().equals(tmdbId.toString()));
+        user.getWatchlist().removeIf(item -> item.getMovieid().equals(tmdbId));
         userRepo.save(user);
     }
 

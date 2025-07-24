@@ -94,7 +94,7 @@ public class WishListService {
         User user = userRepo.findById(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.getWishlist().removeIf(item -> item.getMovieid().equals(tmdbId.toString()));
+        user.getWishlist().removeIf(item -> item.getMovieid().equals(tmdbId));
         userRepo.save(user);
     }
 }
