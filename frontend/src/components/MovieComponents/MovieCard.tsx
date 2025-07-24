@@ -129,28 +129,28 @@ export default function MovieCard({ movie, showActions = true }: Props) {
         Release Year: {movie.release_year}
       </p>
 
-      {showActions && (
-        <div className="flex justify-center items-center mt-4">
-          <button
-            onClick={() => addToWishlist()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
-                      transition-transform duration-300 group-hover:scale-105 text-xl"
-                        style={{ fontFamily: "'VT323', monospace" }}
-          >
-            Add to wish list
-          </button>
-          <button
-            onClick={() => addToWatchlist()}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
-                      transition-transform duration-300 group-hover:scale-105 text-xl"
-                        style={{ fontFamily: "'VT323', monospace" }}
-          >
-            Watched?
-          </button>
-        </div>
-      )}
-      
+      <div className="flex justify-center items-center mt-4">
+        <button
+          onClick={() => addToWishlist()}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
+                    transition-transform duration-300 group-hover:scale-105 text-xl"
+                      style={{ fontFamily: "'VT323', monospace" }}
+        >
+          Add to wish list
+        </button>
 
+        {showActions && (
+            <button
+              onClick={() => addToWatchlist()}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
+                        transition-transform duration-300 group-hover:scale-105 text-xl"
+                          style={{ fontFamily: "'VT323', monospace" }}
+            >
+              Watched?
+            </button>
+        )}
+      </div>
+      
       {success && (
         <p
           className="mt-4 text-green-600 font-semibold text-center sm:text-left text-sm sm:text-base
