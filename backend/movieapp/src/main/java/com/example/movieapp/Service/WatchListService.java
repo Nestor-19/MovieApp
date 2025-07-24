@@ -55,7 +55,6 @@ public class WatchListService {
 
     @Transactional
     public void addMovie(String userEmail, Movie movie) {
-        System.out.println(userEmail);
         User user = userRepo.findById(userEmail)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -77,6 +76,7 @@ public class WatchListService {
             usersLists.add(new WatchListItem(tmdbId, null));
             user.setWatchlist(usersLists);
             userRepo.save(user);
+            return;
         } 
         
         if (wishlistExists) {

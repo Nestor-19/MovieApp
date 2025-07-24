@@ -49,6 +49,7 @@ public class WishListService {
             usersLists.add(new WatchListItem(tmdbId, null));
             user.setWishlist(usersLists);
             userRepo.save(user);
+            return;
         } 
 
         if (wishlistExists) {
