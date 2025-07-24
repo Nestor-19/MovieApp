@@ -9,6 +9,10 @@ target/
 target/
 build/
 
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
 
 ### STS ###
 .apt_generated

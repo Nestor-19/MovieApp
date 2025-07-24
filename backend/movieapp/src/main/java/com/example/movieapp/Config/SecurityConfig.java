@@ -30,6 +30,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("/api/watchlist/**").authenticated()
+                .requestMatchers("/api/actors/**").authenticated()
+                .requestMatchers("/api/recommendations").authenticated()
+                .requestMatchers("/api/movies/**").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

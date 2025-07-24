@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";
 
 export interface WatchedMovie {
-  tmdbId: string;
+  tmdbId: number;
   title: string;
   description: string;
   image: string;
@@ -14,8 +14,8 @@ export interface WatchedMovie {
 
 type Props = {
   movie: WatchedMovie;
-  onRemove: (id: string) => void;
-  onLikeChange: (id: string, liked: boolean) => void;
+  onRemove: (id: number) => void;
+  onLikeChange: (id: number, liked: boolean) => void;
 };
 
 export default function WatchedCard({ movie, onRemove, onLikeChange }: Props) {

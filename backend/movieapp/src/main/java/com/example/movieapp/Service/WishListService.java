@@ -1,11 +1,12 @@
 package com.example.movieapp.Service;
 
+import com.example.movieapp.Dtos.WatchListItemDto;
 import com.example.movieapp.Models.Movie;
 import com.example.movieapp.Models.User;
 import com.example.movieapp.Models.WatchListItem;
 import com.example.movieapp.Repository.MovieRepo;
 import com.example.movieapp.Repository.UserRepo;
-import com.example.movieapp.dtos.WatchListItemDto;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,29 +27,39 @@ public class WishListService {
     }
 
 
-    public void addToWishlist(String userEmail, Movie movie){
+    public void addMovie(String userEmail, Movie movie){
         User user = userRepo.findById(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
 
-        final String tmdbId = movie.getTmdbId();
+        final Integer tmdbId = movie.getTmdbId();
 
         if (!movieRepo.existsById(tmdbId)) {
             movieRepo.save(movie);
         }
 
-        boolean exists = user.getWishlist().stream()
+        boolean wishlistExists = user.getWishlist().stream()
+                .anyMatch(item -> item.getMovieid().equals(tmdbId));
+        
+        boolean watchlistExists = user.getWatchlist().stream()
                 .anyMatch(item -> item.getMovieid().equals(tmdbId));
 
-        if (!exists) {
+        if (!wishlistExists && !watchlistExists) {
             ArrayList<WatchListItem> usersLists = user.getWishlist();
             usersLists.add(new WatchListItem(tmdbId, null));
             user.setWishlist(usersLists);
             userRepo.save(user);
-        } else{
+        } 
+
+        if (wishlistExists) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "Movie already exists in your wishlist"
+            );
+        }else{
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Movie exists in your watchlist!"
             );
         }
     }
@@ -60,7 +71,7 @@ public class WishListService {
         return user.getWishlist().stream()
                 .map(item -> {
                     Integer tmdbId = Integer.valueOf(item.getMovieid());
-                    Movie movie = movieRepo.findById(tmdbId.toString())
+                    Movie movie = movieRepo.findById(tmdbId)
                             .orElseThrow(() -> new ResponseStatusException(
                                     HttpStatus.NOT_FOUND,
                                     "Movie %d not found".formatted(tmdbId)));

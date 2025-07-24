@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class WatchListItem {
-    private String movieid;
+    private Integer movieid;
     private Boolean liked;
 
-    public String getMovieid() {
+    public Integer getMovieid() {
         return movieid;
     }
 
-    public void setMovieid(String movieid) {
+    public void setMovieid(Integer movieid) {
         this.movieid = movieid;
     }
 
@@ -26,7 +26,7 @@ public class WatchListItem {
         this.liked = liked;
     }
 
-    public WatchListItem(String movieid, Boolean liked) {
+    public WatchListItem(Integer movieid, Boolean liked) {
         this.liked = liked;
         this.movieid = movieid;
     }

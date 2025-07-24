@@ -1,44 +1,89 @@
-// src/app/dashboard/page.tsx
 import React from "react";
 import { notFound } from "next/navigation";
 import MovieCard from "@/components/MovieComponents/MovieCard";
 
-const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+const BACKEND_BASE = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
-async function fetchMoviesByPage(page: number) {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`,
-    { next: { revalidate: 60 } }
-  );
+// How many movies per page (tune this: 20, 32, 40, etc.)
+const PAGE_SIZE = 20;
 
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  console.log(data)
-  return data;
+interface MovieListDto {
+  tmdbId: number;
+  title: string;
+  image: string;
+  rating: number;
+  runTime: number;
+  releaseYear: number | null;
+  genres: string[];
+  description: string
 }
 
-export default async function TopRated({
+/**
+ * Fetch ALL movies once from Spring.
+ */
+async function fetchAllMovies(): Promise<MovieListDto[]> {
+  const res = await fetch(`${BACKEND_BASE}/api/movies/all`, {
+    // Revalidate every 5 minutes (adjust or remove for always-fresh)
+    next: { revalidate: 300 },
+  });
+
+  if (!res.ok) {
+    console.error("Failed to fetch movies:", res.status);
+    return [];
+  }
+  return res.json();
+}
+
+/**
+ * Convert MovieListDto to the "TMDB-like" object MovieCard was built for.
+ * Adjust field names here if MovieCard expects something different.
+ */
+function adaptToMovieCard(dto: MovieListDto) {
+  return {
+    id: dto.tmdbId,
+    title: dto.title,
+    image: dto.image,
+    description: dto.description || "",
+    vote_average: dto.rating,
+    genres: dto.genres,
+    release_year: dto.releaseYear,
+    runtime: dto.runTime,
+  };
+}
+
+export default async function DashboardPage({
   searchParams,
 }: {
   searchParams: { page?: string };
 }) {
-  const currentPage = Number(searchParams.page) || 1;
-  const data = await fetchMoviesByPage(currentPage);
+  const currentPage = Math.max(Number(searchParams.page) || 1, 1);
 
-  if (!data) return notFound();
+  const allMovies = await fetchAllMovies();
+  if (!allMovies.length) {
+    return notFound();
+  }
 
-  const movies = data.results;
-  const totalPages = data.total_pages;
+  const total = allMovies.length;
+  const totalPages = Math.max(Math.ceil(total / PAGE_SIZE), 1);
+
+  if (currentPage > totalPages) {
+    return notFound();
+  }
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageSlice = allMovies.slice(start, start + PAGE_SIZE);
+
+  // Adapt each to what MovieCard expects
+  const moviesForCard = pageSlice.map(adaptToMovieCard);
 
   return (
     <div className="px-6 py-8">
-   <h1 className="text-white text-5xl font-bold text-center mb-6">
-  The Best Films Currently On Screen
-</h1>
+      <h1 className="text-white text-5xl font-bold text-center mb-6">
+        The Best Films Currently On Screen
+      </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {movies.map((movie: any) => (
-          
+        {moviesForCard.map((movie: any) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
@@ -64,3 +109,4 @@ export default async function TopRated({
     </div>
   );
 }
+

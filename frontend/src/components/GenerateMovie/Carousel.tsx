@@ -1,12 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation";
 import MoodStep from "./steps/MoodStep"
 import GenresStep from "./steps/GenresStep"
 import ActorsStep from "./steps/ActorsStep"
 import RuntimeStep from "./steps/RuntimeStep"
-import { useRouter } from "next/navigation"  // import router
 import { motion } from "framer-motion";  // Adding framer-motion for animations
+import { useRecommendations } from "@/hooks/useRecommendations"
+import { useCurrentUser } from "@/hooks/useCurrentUser"
+import { useRecStore } from "@/hooks/useRecStore"
+
 
 export interface GenerateForm {
   mood: string
@@ -27,10 +31,13 @@ const steps = [
 ]
 
 export default function Carousel({ watchlist }: Props) {
+  const router = useRouter();
   const [current, setCurrent] = useState(0)
   const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const {user, loading: userLoading} = useCurrentUser();
+  const {fetchRecs, loading, error, data} = useRecommendations();
+  const { setMovies } = useRecStore();
+
   const [form, setForm] = useState<GenerateForm>({
     mood: "",
     genres: [],
@@ -42,38 +49,26 @@ export default function Carousel({ watchlist }: Props) {
   const goBack = () => setCurrent((i) => Math.max(i - 1, 0))
 
   const submit = async () => {
-    console.log("Get Recommendations!", form);
-    setLoading(true);
-
-    const start = Date.now();
+    if (!user) return;
+    console.log(`Get your Recommendations ${user?.firstName}!`);
 
     try {
-      const res = await fetch(`${backendUrl}/api/movies/randomMovies`, {
-        credentials: "include",
-      });
+      const result = await fetchRecs({
+        user_id: user.email,
+        mood: form.mood,
+        genres: form.genres,
+        actors: form.actors,
+        max_runtime: form.maxRuntime
+      })
 
-      const elapsed = Date.now() - start;
-      const wait = Math.max(3000 - elapsed, 0); // ensure at least 3 seconds
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("Failed to get random movies:", errorText);
-      } else {
-        const movies = await res.json();
-        const movieIds = movies.map((movie: any) => movie.tmdbId);
-        localStorage.setItem("recommendedMovieIds", JSON.stringify(movieIds));
-        console.log("Saved movie IDs to localStorage:", movieIds);
-      }
-
-      setTimeout(() => {
-        setLoading(false);
-        router.push("/generateMovieResults");  // <-- Change to your target path here
-      }, wait);
-    } catch (error) {
-      console.error("Network error:", error);
-      setTimeout(() => setLoading(false), 3000);
+      console.log(result)
+      setMovies(result.movies)
+      router.push("/recommendations")
+    } catch(e) {
+      console.log(e)
     }
   };
+
   const progress = ((current + 1) / steps.length) * 100
 
   return (
@@ -156,6 +151,13 @@ export default function Carousel({ watchlist }: Props) {
             )}
           </div>
         </div>
+        
+        {/* Error */}
+        {error && (
+          <div className="mt-4 p-4 bg-red-900/60 border border-red-500 text-red-200 rounded">
+            {error}
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="flex justify-between items-center">

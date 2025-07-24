@@ -5,7 +5,7 @@ to return the Top-10 movies for a single request.
 
 from __future__ import annotations
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import numpy as np, pandas as pd, joblib
 from pathlib import Path
 from typing import List, Dict
@@ -13,7 +13,7 @@ from typing import List, Dict
 def _to_list(x):
     # if None / NaN  -> empty list
     # if ndarray -> list(x)
-    # if list ➜ do nothing
+    # if list -> do nothing
     if x is None or (isinstance(x, float) and pd.isna(x)):
         return []
     if isinstance(x, np.ndarray):
@@ -45,8 +45,6 @@ ranker = joblib.load(PROC_DIR / "ranker.joblib")
 
 movies = movies_sent.join(movies_emb[["text_vec"]])
 
-print(movies.columns.tolist())
-
 MOOD_MAP = { # UI to model emotion
     "Happy": "joy", "Surprised": "surprise", "Scary": "fear", 
     "Disgusted": "disgust", "Angry": "anger", "Sad": "sadness", "Neutral": "neutral"
@@ -59,6 +57,19 @@ class GenForm(BaseModel):
     genres: List[str] = []
     actors: List[str] = []
     max_runtime: int   # minutes
+
+class Movie(BaseModel):
+    id: int
+    title: str
+    description: str
+    image: str
+    runtime: int = Field(alias="runTime")
+    genres: List[str]
+    vote_average: float = Field(alias="rating")
+    release_year: int = Field(alias="releaseYear")
+
+class RecommendationResponse(BaseModel):
+    movies: List[Movie]
 
 app = FastAPI(title="MovieMind recommender")
 
@@ -78,8 +89,8 @@ def taste_score(user_vec: np.ndarray, fav_genres: List[str], row) -> float:
     return float(ranker.predict_proba([[genre_overlap, embed_dist]])[0, 1])
 
 
-@app.post("/recommend")
-def recommend(form: GenForm) -> Dict[str, List[str]]:
+@app.post("/recommend", response_model=RecommendationResponse, response_model_by_alias=False )
+def recommend(form: GenForm) -> RecommendationResponse:
     if form.mood not in MOOD_MAP:
         raise HTTPException(status_code=400, detail="Unknown mood")
 
@@ -100,29 +111,38 @@ def recommend(form: GenForm) -> Dict[str, List[str]]:
         cand = cand[cand.genres.apply(lambda g: bool(set(g) & set(form.genres)))]
     if form.actors:
         cand = cand[cand.actors.apply(lambda a: bool(set(a) & set(form.actors)))]
-        
     if cand.empty:
         raise HTTPException(status_code=404, detail="No movies match those filters! Please try again.")
 
-
     # Form scores
     emo_col = f"prob_{MOOD_MAP[form.mood]}"
+    
+    cand = cand[cand[emo_col] >= 0.3]
+    if cand.empty:
+        raise HTTPException(status_code=404, detail="No movies pass the mood threshold (>33%).")
+    
     cand["form_score"] = cand.apply(
         lambda r: form_scores(r, form, r[emo_col]), axis=1)
-
     topN = cand.nlargest(30, "form_score").copy()
+    
+    print(topN)
 
     # Taste score + blend
     topN["taste"] = topN.apply(lambda r: taste_score(user_vec, fav_genres, r), axis=1)
-    print(topN)
-    
     topN["ultimate"] = 0.85*topN.form_score + 0.15*topN.taste
 
     # Final sort, drop already-seen films
     topN = topN.drop(index=topN.index.intersection(seen_ids))
     top10 = topN.nlargest(10, "ultimate")
+    
+    print(top10)
+    
+    # ----- build response -----
+    cols = ["title", "description", "image", "runTime", "genres",
+            "rating", "releaseYear"]
 
-    return {
-        "movie_ids": top10.index.tolist(),
-        "titles":    top10.title.tolist()
-    }
+    df = top10[cols].copy()
+    df["id"] = top10.index.astype(int)
+    
+    movies_payload = [Movie.parse_obj(row.to_dict()) for _, row in df.iterrows()]
+    return RecommendationResponse(movies=movies_payload)

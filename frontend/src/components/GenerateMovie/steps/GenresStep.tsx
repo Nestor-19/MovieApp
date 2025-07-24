@@ -4,12 +4,20 @@ import { motion } from "framer-motion";  // Adding framer-motion for animations
 const ALL_GENRES = [
   { name: "Drama", emoji: "🎭" },
   { name: "Action", emoji: "💥" },
+  { name: "Crime", emoji: "🚔" },
+  { name: "History", emoji: "🏛️" },
+  { name: "Fantasy", emoji: "🧙‍♂️" },
+  { name: "Adventure", emoji: "🗺️" },
+  { name: "Family", emoji: "🏠" },
+  { name: "Animation", emoji: "🤓" },
+  { name: "Music", emoji: "🎶" },
   { name: "Comedy", emoji: "😂" },
   { name: "Horror", emoji: "👻" },
   { name: "Mystery", emoji: "🔍" },
   { name: "Romance", emoji: "💖" },
   { name: "Thriller", emoji: "😰" },
-  { name: "Sci-Fi", emoji: "🚀" },
+  { name: "War", emoji: "🪖" },
+  { name: "Science Fiction", emoji: "🚀" },
 ]
 
 type Props = {

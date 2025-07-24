@@ -1,8 +1,9 @@
 package com.example.movieapp.Controllers;
 
+import com.example.movieapp.Dtos.WatchListItemDto;
 import com.example.movieapp.Models.Movie;
 import com.example.movieapp.Service.WishListService;
-import com.example.movieapp.dtos.WatchListItemDto;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,11 +26,9 @@ public class WishListController {
         return wishListService.getWishlist(oidcUser.getEmail());
     }
 
-
-    @PostMapping("/addToWishlist")
-    public ResponseEntity<Void> addToWishlist(@AuthenticationPrincipal OidcUser oidcUser, @RequestBody Movie movie) {
-
-        wishListService.addToWishlist(oidcUser.getEmail(), movie);
+    @PostMapping
+    public ResponseEntity<Void> add(@AuthenticationPrincipal OidcUser oidcUser, @RequestBody Movie movie) {
+        wishListService.addMovie(oidcUser.getEmail(), movie);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

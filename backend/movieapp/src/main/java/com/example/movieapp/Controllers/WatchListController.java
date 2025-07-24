@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.movieapp.Dtos.WatchListItemDto;
 import com.example.movieapp.Models.Movie;
 
 import com.example.movieapp.Service.WatchListService;
-import com.example.movieapp.dtos.WatchListItemDto;
 
 @RestController
 @RequestMapping("/api/watchlist")
@@ -51,7 +51,7 @@ public class WatchListController {
     }
 
     @PutMapping("/{tmdbId}")
-    public ResponseEntity<Void> setLiked(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable String tmdbId, @RequestParam boolean liked) {
+    public ResponseEntity<Void> setLiked(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Integer tmdbId, @RequestParam boolean liked) {
         watchListService.setLiked(oidcUser.getEmail(), tmdbId, liked);
         return ResponseEntity.noContent().build();
     }

@@ -1,4 +1,4 @@
-package com.example.movieapp.dtos;
+package com.example.movieapp.Dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class WatchListItemDto {
-    private String tmdbId;
+    private Integer tmdbId;
     private String title;
     private String description;
     private String image;
@@ -16,7 +16,7 @@ public class WatchListItemDto {
 
     public WatchListItemDto(String description, String image, Boolean liked,
                             Integer rating, Integer runTime,
-                            String title, String tmdbId) {
+                            String title, Integer tmdbId) {
         this.description = description;
         this.image = image;
         this.liked = liked;
@@ -74,11 +74,11 @@ public class WatchListItemDto {
         this.title = title;
     }
 
-    public String getTmdbId() {
+    public Integer getTmdbId() {
         return tmdbId;
     }
 
-    public void setTmdbId(String tmdbId) {
+    public void setTmdbId(Integer tmdbId) {
         this.tmdbId = tmdbId;
     }
 }

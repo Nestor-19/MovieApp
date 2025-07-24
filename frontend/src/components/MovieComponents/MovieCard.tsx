@@ -1,20 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGenreMap } from "@/hooks/useGenreMap";
-import { fetchMovieDetails } from "@/utils/movieDetails";
-
-interface TmdbMovie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  runtime: number;
-  genre_ids: number[];
-  vote_average: number;
-  vote_count: number;
-  release_date: string;
-}
+import { MovieCardType } from "@/types/MovieCardType";
 
 interface Movie {
   tmdbId: string;
@@ -27,34 +14,27 @@ interface Movie {
 }
 
 type Props = {
-  movie: TmdbMovie;
+  movie: MovieCardType;
+  showActions?: boolean;
 };
 
-export default function MovieCard({ movie }: Props) {
-  const genreMap = useGenreMap();
+export default function MovieCard({ movie, showActions = true }: Props) {
   const [success, setSuccessMsg] = useState("");
   const [fail, setFailMsg] = useState("");
   const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
 
-  const genreNames = movie.genre_ids
-    .map(id => genreMap[id])
-    .filter(Boolean) as string[];
-
-  const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
-  const addToWatchlist = async () => {
-    const { runtime } = await fetchMovieDetails(movie.id);
-
-    const payload: Movie = {
+  const payload: Movie = {
       tmdbId:       movie.id.toString(),
       title:        movie.title,
-      description:  movie.overview,
-      image:        imageUrl,
-      runTime:      runtime,
-      genres:       genreNames,
+      description:  movie.description,
+      image:        movie.image,
+      runTime:      movie.runtime,
+      genres:       movie.genres,
       rating:       Math.round(movie.vote_average),
     };
 
+
+  const addToWatchlist = async () => {
     try {
       const response = await fetch(`${backendUrl}/api/watchlist`, {
         method:      "POST",
@@ -69,8 +49,9 @@ export default function MovieCard({ movie }: Props) {
         setSuccessMsg("✅ Movie successfully added to your watchlist!");
         setFailMsg("");
       } else if (response.status === 409) {
-      setFailMsg("❌ That movie is already in your watchlist.");
-      setSuccessMsg("");
+        const errorText = await response.json();
+        setFailMsg(`❌ ${errorText.message}`);
+        setSuccessMsg("");
       } else {
         const errorText = await response.text();
         setFailMsg(`❌ ${errorText}`);
@@ -83,17 +64,24 @@ export default function MovieCard({ movie }: Props) {
     }
   };
 
-  const addToWishlist = async (tmdbId: number) => {
-    alert("Clicked watchlist btn");
+  const addToWishlist = async () => {
     try {
-      const response = await fetch(`${backendUrl}/api/movie/add/${tmdbId}`, {
+      const response = await fetch(`${backendUrl}/api/wishlist`, {
         method: "POST",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        setSuccessMsg("✅ Movie successfully added to your watchlist!");
+        setSuccessMsg("✅ Movie successfully added to your wishlist!");
         setFailMsg("");
+      } else if (response.status === 409) {
+        const errorText = await response.json();
+        setFailMsg(`❌ ${errorText.message}`);
+        setSuccessMsg("");
       } else {
         const errorText = await response.text();
         setFailMsg(`❌ ${errorText}`);
@@ -118,7 +106,7 @@ export default function MovieCard({ movie }: Props) {
         {movie.title}
       </h3>
       <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        src={`https://image.tmdb.org/t/p/w500${movie.image}`}
         alt={movie.title}
         className="w-full h-auto rounded-md object-cover"
       />
@@ -127,7 +115,7 @@ export default function MovieCard({ movie }: Props) {
                    group-hover:max-h-64 group-hover:overflow-auto
                    transition-transform duration-300 group-hover:scale-105"
       >
-        {movie.overview}
+        {movie.description}
       </p>
       <div
         className="text-lg text-white font-semibold mb-2
@@ -138,32 +126,30 @@ export default function MovieCard({ movie }: Props) {
       <p
         className="text-gray-500 transition-transform duration-300 group-hover:scale-105"
       >
-        Release Year: {movie.release_date?.slice(0, 4)}
-      </p>
-      <p
-        className="text-gray-500 transition-transform duration-300 group-hover:scale-105"
-      >
-        Votes: {movie.vote_count}
+        Release Year: {movie.release_year}
       </p>
 
-      <div className="flex justify-center items-center mt-4">
-        <button
-          onClick={() => addToWishlist(movie.id)}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
-                     transition-transform duration-300 group-hover:scale-105 text-xl"
-                      style={{ fontFamily: "'VT323', monospace" }}
-        >
-          Add to wish list
-        </button>
-        <button
-          onClick={() => addToWatchlist()}
-          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
-                     transition-transform duration-300 group-hover:scale-105 text-xl"
-                      style={{ fontFamily: "'VT323', monospace" }}
-        >
-          Watched?
-        </button>
-      </div>
+      {showActions && (
+        <div className="flex justify-center items-center mt-4">
+          <button
+            onClick={() => addToWishlist()}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-3
+                      transition-transform duration-300 group-hover:scale-105 text-xl"
+                        style={{ fontFamily: "'VT323', monospace" }}
+          >
+            Add to wish list
+          </button>
+          <button
+            onClick={() => addToWatchlist()}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700
+                      transition-transform duration-300 group-hover:scale-105 text-xl"
+                        style={{ fontFamily: "'VT323', monospace" }}
+          >
+            Watched?
+          </button>
+        </div>
+      )}
+      
 
       {success && (
         <p

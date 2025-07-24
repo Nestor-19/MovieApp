@@ -22,11 +22,11 @@ export default function WatchedListPage() {
   }, []);
 
 
-  const handleRemove = (id: string) => {
+  const handleRemove = (id: number) => {
     setMovies(prev => prev.filter(m => m.tmdbId !== id));
   };
 
-  const handleLikeChange = (id: string, liked: boolean) => {
+  const handleLikeChange = (id: number, liked: boolean) => {
     setMovies(prev =>
       prev.map(m => (m.tmdbId === id ? { ...m, liked } : m))
     );

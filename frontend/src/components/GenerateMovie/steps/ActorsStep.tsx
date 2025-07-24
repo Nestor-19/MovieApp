@@ -11,8 +11,7 @@ type Props = {
 export interface Actor {
   actorId: string;
   fullName: string;
-  moviesActedIn: string[];
-  pictureUrl: string;
+  popularity: number;
 }
 
 export default function ActorsStep({ selected, onChange }: Props) {
@@ -26,7 +25,7 @@ export default function ActorsStep({ selected, onChange }: Props) {
   // Fetch all actors once when this component mounts
   useEffect(() => {
     setLoading(true);
-    fetch(`${backendUrl}/api/actors/getAllActors`, { credentials: "include" })
+    fetch(`${backendUrl}/api/actors/all`, { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<Actor[]>;

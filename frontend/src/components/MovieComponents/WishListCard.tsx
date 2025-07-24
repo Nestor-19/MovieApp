@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
 export interface WishListMovie {
-  tmdbId: string;
+  tmdbId: number;
   title: string;
   description: string;
   image: string;
@@ -14,7 +14,7 @@ export interface WishListMovie {
 
 type Props = {
   movie: WishListMovie;
-  onRemove: (id: string) => void;
+  onRemove: (id: number) => void;
 
 };
 
