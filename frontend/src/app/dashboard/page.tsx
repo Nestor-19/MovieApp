@@ -54,9 +54,10 @@ function adaptToMovieCard(dto: MovieListDto) {
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
-  const currentPage = Math.max(Number(searchParams.page) || 1, 1);
+  const { page } = await searchParams;
+  const currentPage = Math.max(Number(page) || 1, 1);
 
   const allMovies = await fetchAllMovies();
   if (!allMovies.length) {
