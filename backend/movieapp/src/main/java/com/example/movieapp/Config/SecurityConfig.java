@@ -3,6 +3,8 @@ package com.example.movieapp.Config;
 import com.example.movieapp.Models.User;
 import com.example.movieapp.Repository.UserRepo;
 import com.example.movieapp.Service.CurrentUserService;
+
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import org.springframework.context.annotation.Bean;
@@ -58,6 +60,14 @@ public class SecurityConfig {
                     currentUserService.setCurrentUser(user);
 
                     res.sendRedirect("http://localhost:3000/dashboard");
+                })
+            )
+            .logout(logout -> logout
+                .logoutUrl("/api/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler((req, res, auth) -> {
+                    res.setStatus(HttpServletResponse.SC_OK);
                 })
             );
 

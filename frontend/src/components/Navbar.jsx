@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   // Example: user credits fetched or passed as props
+  const backendUrl = process.env.NEXT_PUBLIC_URL_LOCAL_BACKEND;
+  const router = useRouter();
   const [userCredits, setUserCredits] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +31,19 @@ export default function Navbar() {
   const toggleProfileDropdown = () => {
     setProfileDropdownOpen(!profileDropdownOpen);
   };
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${backendUrl}/api/logout`, {
+        method: "POST",
+        credentials: "include"
+      });
+    } catch (error) {
+      console.log(error)
+    } finally {
+      router.push("/")
+    }
+  }
 
   return (
     <header style={{ backgroundColor: "#384c6e" }}>
@@ -141,25 +157,19 @@ export default function Navbar() {
                 <div className="absolute top-12 right-0 bg-white shadow-lg rounded-md w-48 z-50">
                   <ul>
                     <li>
-
                         <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
                           View Profile
                         </a>
-
                     </li>
                     <li>
-
                         <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
                           Settings
                         </a>
-
                     </li>
                     <li>
-
-                        <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200">
-                          Logout
+                        <a className="block px-4 py-2 text-gray-700 hover:bg-gray-200" onClick={handleLogout}> 
+                          Logout 
                         </a>
-
                     </li>
                   </ul>
                 </div>
