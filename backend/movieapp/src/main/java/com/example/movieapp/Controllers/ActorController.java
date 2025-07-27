@@ -1,18 +1,12 @@
 package com.example.movieapp.Controllers;
 
-import com.example.movieapp.Models.Actor;
-import com.example.movieapp.Models.Movie;
-import com.example.movieapp.Repository.ActorRepo;
-import com.example.movieapp.Repository.MovieRepo;
-import com.example.movieapp.Service.ActorService;
-import com.example.movieapp.Dtos.ActorDto;
-import com.example.movieapp.Dtos.ActorsListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import com.example.movieapp.Repository.ActorRepo;
 
 @RestController
 @RequestMapping("/api/actors")

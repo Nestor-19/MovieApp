@@ -1,16 +1,10 @@
 package com.example.movieapp.Service;
 
 
-import com.example.movieapp.Dtos.ActorDto;
-import com.example.movieapp.Dtos.ActorsListDto;
-import com.example.movieapp.Models.Actor;
-import com.example.movieapp.Repository.ActorRepo;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.example.movieapp.Repository.ActorRepo;
 
 @Service
 public class ActorService {
