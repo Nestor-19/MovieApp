@@ -3,6 +3,16 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+# === SENSITIVE FILES ===
+.env
+# === BUILD FILES ===
+target/
+build/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
 
 ### STS ###
 .apt_generated

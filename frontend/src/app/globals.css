@@ -1,21 +1,15 @@
-@tailwind base;
-@tailwind components;
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Tailwind utilities must come after your custom imports */
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "VT323", monospace;  /* <-- Your custom Google font here */
+  font-weight: 400;
+  font-style: normal;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
