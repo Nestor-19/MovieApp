@@ -1,0 +1,62 @@
+name: Backend CI/CD
+
+# Run on pushes and pull requests to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-springboot:
+    name: Build & Test Spring Boot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Maven
+        run: |
+          cd backend/movieapp
+          mvn clean verify
+
+      # Build Docker image
+      - name: Build & tag Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend/movieapp
+          file: backend/movieapp/Dockerfile
+          tags: ${{ secrets.DOCKER_USERNAME }}/moviemind-springboot:latest
+          push: false
+
+  build-ml:
+    name: Build ML Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies & test
+        run: |
+          cd ml
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build ML Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ml
+          file: ml/Dockerfile
+          tags: ${{ secrets.DOCKER_USERNAME }}/moviemind-ml:latest
+          push: false
