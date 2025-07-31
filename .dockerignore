@@ -1,0 +1,6 @@
+target/
+__pycache__/
+*.pyc
+.git/
+.env
+node_modules/
